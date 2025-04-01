@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="prjSolicitaCompras.NovaSolicitacao"
+             Title="NovaSolicitacao">
+    <VerticalStackLayout>
+        <Label 
+            Text="Nova Solicitação"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            Margin="0,20,0,20" />
+
+        <Label Text="Usuário" Margin="10,10,10,0" />
+        <Entry x:Name="EdUsuario" Margin="10,0,10,50" />
+
+        <Label Text="Data Solicitação" Margin="10,10,10,0" />
+        <Entry x:Name="DtSolicitacao" Margin="10,0,10,50" />
+
+        <Label Text="Nível de Urgência" Margin="10,10,10,0" />
+        <Entry x:Name="NivelUrgencia" Margin="10,0,10,0" />
+
+        <Label Text="Itens da Solicitação" Margin="10,50,10,0" FontAttributes="Bold" />
+        <Frame BorderColor="Black">
+            <Grid Margin="10,10,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Código" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" />
+                <Label Text="Descrição" Grid.Row="0" Grid.Column="1" VerticalOptions="Center" />
+
+                <Entry x:Name="Codigo" Grid.Row="1" Grid.Column="0" />
+                <Entry x:Name="Descricao" Grid.Row="1" Grid.Column="1" />
+            </Grid>
+        </Frame>
+
+        <HorizontalStackLayout  Margin="10,10,10,10">
+            <ImageButton x:Name="BtnSalvar" Source="C:\Users\User\Documents\ACPA Infos\Icons\salvar.png" />
+            <ImageButton x:Name="BtnCancelar" Source="C:\Users\User\Documents\ACPA Infos\Icons\cancelar.png" />
+            <ImageButton x:Name="BtnLimpar" Source="C:\Users\User\Documents\ACPA Infos\Icons\limpar.png" />
+            <ImageButton x:Name="BtnVoltar" Source="C:\Users\User\Documents\ACPA Infos\Icons\voltar.png" />
+            <ImageButton x:Name="BtnSair" Source="C:\Users\User\Documents\ACPA Infos\Icons\sair.png" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

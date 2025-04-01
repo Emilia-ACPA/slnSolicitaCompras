@@ -1,20 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35913.81 d17.13
+VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "prjSolicitaCompras", "prjSolicitaCompras\prjSolicitaCompras.csproj", "{F35409F7-BCC5-480D-871D-4F272C4D6521}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM32 = Debug|ARM32
 		Release|Any CPU = Release|Any CPU
+		Release|ARM32 = Release|ARM32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F35409F7-BCC5-480D-871D-4F272C4D6521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F35409F7-BCC5-480D-871D-4F272C4D6521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F35409F7-BCC5-480D-871D-4F272C4D6521}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F35409F7-BCC5-480D-871D-4F272C4D6521}.Debug|ARM32.ActiveCfg = Debug|ARM32
+		{F35409F7-BCC5-480D-871D-4F272C4D6521}.Debug|ARM32.Build.0 = Debug|ARM32
+		{F35409F7-BCC5-480D-871D-4F272C4D6521}.Debug|ARM32.Deploy.0 = Debug|ARM32
 		{F35409F7-BCC5-480D-871D-4F272C4D6521}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F35409F7-BCC5-480D-871D-4F272C4D6521}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F35409F7-BCC5-480D-871D-4F272C4D6521}.Release|ARM32.ActiveCfg = Release|ARM32
+		{F35409F7-BCC5-480D-871D-4F272C4D6521}.Release|ARM32.Build.0 = Release|ARM32
+		{F35409F7-BCC5-480D-871D-4F272C4D6521}.Release|ARM32.Deploy.0 = Release|ARM32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

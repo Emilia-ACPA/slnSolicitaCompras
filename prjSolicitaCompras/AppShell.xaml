@@ -8,7 +8,7 @@
     Title="prjSolicitaCompras">
 
     <ShellContent
-        Title="Home"
+        Title="Solicitação de Compras"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
