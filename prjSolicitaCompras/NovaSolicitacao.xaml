@@ -4,61 +4,79 @@
              xmlns:local="clr-namespace:prjSolicitaCompras"
              x:Class="prjSolicitaCompras.NovaSolicitacao"
              Title="NovaSolicitacao">
-    <VerticalStackLayout Margin="0,30,0,0">
-        <Label Text="Usuário" Margin="10,10,10,0" />
-        <Entry x:Name="EdUsuario" Margin="10,0,10,20" TextChanged="EdUsuario_TextChanged" />
+    <ScrollView>
+        <VerticalStackLayout Margin="0,30,0,0">
+            <Label Text="Usuário" Margin="10,10,10,0" />
+            <Entry x:Name="EdUsuario" Margin="10,0,10,20" TextChanged="EdUsuario_TextChanged" />
 
-        <Label Text="Data Solicitação" Margin="10,10,10,0" />
-        <Entry x:Name="DtSolicitacao" Margin="10,0,10,20" TextChanged="DtSolicitacao_TextChanged" >
-            <Entry.Behaviors>
-                <local:DateMaskBehavior />
-            </Entry.Behaviors>
-        </Entry>
+            <Label Text="Data Solicitação" Margin="10,10,10,0" />
+            <Entry x:Name="DtSolicitacao" Margin="10,0,10,20" TextChanged="DtSolicitacao_TextChanged" Placeholder="dd/MM/yyyy" >
+                <Entry.Behaviors>
+                    <local:DateMaskBehavior />
+                </Entry.Behaviors>
+            </Entry>
 
-        <Label Text="Nível de Urgência" Margin="10,10,10,0" />
-        <Entry x:Name="NivelUrgencia" Margin="10,0,10,20" />
+            <Label Text="Nível de Urgência" Margin="10,10,10,0" />
+            <Picker x:Name="NivelUrgenciaPicker" Margin="10,0,10,20">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Baixo</x:String>
+                        <x:String>Médio</x:String>
+                        <x:String>Alto</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
 
-        <Label Text="Itens da Solicitação" Margin="10,50,10,10" FontAttributes="Bold" FontSize="Subtitle" />
-        <Border Stroke  ="Black" Padding="5" Margin="10,0,10,0">
-            <HorizontalStackLayout>
-                <Label Text="Código" Margin="5,0,5,5" FontAttributes="Bold" />
-                <Label Text="Descrição" Margin="0,0,0,5" FontAttributes="Bold" />
+            <Label Text="Itens da Solicitação" Margin="10,50,10,10" FontAttributes="Bold" FontSize="Subtitle" />
+            <Border Stroke  ="Black" Padding="5" Margin="10,0,10,0">
+                <HorizontalStackLayout>
+                    <Label Text="Código" Margin="5,0,5,5" FontAttributes="Bold" />
+                    <Label Text="Descrição" Margin="0,0,0,5" FontAttributes="Bold" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <Border Stroke="Black" Margin="10,0,10,0">
+                <ScrollView>
+                    <Grid Margin="10,10,10,10" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Entry x:Name="Codigo1" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" />
+                        <Entry x:Name="Descricao1" Grid.Row="0" Grid.Column="1" />
+                        <Entry x:Name="Codigo2" Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" />
+                        <Entry x:Name="Descricao2" Grid.Row="1" Grid.Column="1" />
+                        <Entry x:Name="Codigo3" Grid.Row="2" Grid.Column="0" Margin="0,0,5,0" />
+                        <Entry x:Name="Descricao3" Grid.Row="2" Grid.Column="1" />
+                        <Entry x:Name="Codigo4" Grid.Row="3" Grid.Column="0" Margin="0,0,5,0" />
+                        <Entry x:Name="Descricao4" Grid.Row="3" Grid.Column="1" />
+                        <Entry x:Name="Codigo5" Grid.Row="4" Grid.Column="0" Margin="0,0,5,0" />
+                        <Entry x:Name="Descricao5" Grid.Row="4" Grid.Column="1" />
+                        <Entry x:Name="Codigo6" Grid.Row="5" Grid.Column="0" Margin="0,0,5,0" />
+                        <Entry x:Name="Descricao6" Grid.Row="5" Grid.Column="1" />
+                        <Entry x:Name="Codigo7" Grid.Row="6" Grid.Column="0" Margin="0,0,5,0" />
+                        <Entry x:Name="Descricao7" Grid.Row="6" Grid.Column="1" />
+                    </Grid>
+                </ScrollView>
+            </Border>
+
+            <HorizontalStackLayout  Margin="10,50,10,50">
+                <ImageButton x:Name="BtnSalvar" Source="C:\Users\User\Documents\ACPA Infos\Icons\salvar.png" />
+                <ImageButton x:Name="BtnCancelar" Source="C:\Users\User\Documents\ACPA Infos\Icons\cancelar.png" />
+                <ImageButton x:Name="BtnLimpar" Source="C:\Users\User\Documents\ACPA Infos\Icons\limpar.png" />
+                <ImageButton x:Name="BtnVoltar" Source="C:\Users\User\Documents\ACPA Infos\Icons\voltar.png" />
+                <ImageButton x:Name="BtnSair" Source="C:\Users\User\Documents\ACPA Infos\Icons\sair.png" />
             </HorizontalStackLayout>
-        </Border>
-
-        <Border Stroke="Black" Margin="10,0,10,0">
-            <ScrollView>
-                <Grid Margin="10,10,10,10" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <Entry x:Name="Codigo1" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" />
-                    <Entry x:Name="Descricao1" Grid.Row="0" Grid.Column="1" />
-                    <Entry x:Name="Codigo2" Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" />
-                    <Entry x:Name="Descricao2" Grid.Row="1" Grid.Column="1" />
-                    <Entry x:Name="Codigo3" Grid.Row="2" Grid.Column="0" Margin="0,0,5,0" />
-                    <Entry x:Name="Descricao3" Grid.Row="2" Grid.Column="1" />
-                    <Entry x:Name="Codigo4" Grid.Row="3" Grid.Column="0" Margin="0,0,5,0" />
-                    <Entry x:Name="Descricao4" Grid.Row="3" Grid.Column="1" />
-                    <Entry x:Name="Codigo5" Grid.Row="4" Grid.Column="0" Margin="0,0,5,0" />
-                    <Entry x:Name="Descricao5" Grid.Row="4" Grid.Column="1" />
-                </Grid>
-            </ScrollView>
-        </Border>
-
-        <HorizontalStackLayout  Margin="10,10,10,10">
-            <ImageButton x:Name="BtnSalvar" Source="C:\Users\User\Documents\ACPA Infos\Icons\salvar.png" />
-            <ImageButton x:Name="BtnCancelar" Source="C:\Users\User\Documents\ACPA Infos\Icons\cancelar.png" />
-            <ImageButton x:Name="BtnLimpar" Source="C:\Users\User\Documents\ACPA Infos\Icons\limpar.png" />
-            <ImageButton x:Name="BtnVoltar" Source="C:\Users\User\Documents\ACPA Infos\Icons\voltar.png" />
-            <ImageButton x:Name="BtnSair" Source="C:\Users\User\Documents\ACPA Infos\Icons\sair.png" />
-        </HorizontalStackLayout>
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
