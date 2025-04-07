@@ -71,12 +71,29 @@
             </Border>
 
             <HorizontalStackLayout  Margin="10,50,10,50">
-                <ImageButton x:Name="BtnSalvar" Source="C:\Users\User\Documents\ACPA Infos\Icons\salvar.png" />
+                <ImageButton x:Name="BtnSalvar" Source="C:\Users\User\Documents\ACPA Infos\Icons\salvar.png" Clicked="BtnSalvar_Clicked" />
                 <ImageButton x:Name="BtnCancelar" Source="C:\Users\User\Documents\ACPA Infos\Icons\cancelar.png" />
                 <ImageButton x:Name="BtnLimpar" Source="C:\Users\User\Documents\ACPA Infos\Icons\limpar.png" />
                 <ImageButton x:Name="BtnVoltar" Source="C:\Users\User\Documents\ACPA Infos\Icons\voltar.png" />
                 <ImageButton x:Name="BtnSair" Source="C:\Users\User\Documents\ACPA Infos\Icons\sair.png" />
             </HorizontalStackLayout>
+            <CollectionView x:Name="ListaSolicitacoes">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="10" Padding="10" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <Label Text="{Binding Usuario}" FontSize="Medium" />
+                            <Label Text="{Binding DataSolicitacao}" FontSize="Medium" />
+                            <Label Text="{Binding NivelUrgencia}" FontSize="Medium" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

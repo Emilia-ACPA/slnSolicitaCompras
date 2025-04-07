@@ -1,13 +1,17 @@
 using System.Globalization;
+using SQLite;
 
 namespace prjSolicitaCompras;
 
 public partial class NovaSolicitacao : ContentPage
 {
-	public NovaSolicitacao()
+    private readonly SQLiteConnection _con;
+
+    public NovaSolicitacao(SQLiteConnection con)
 	{
 		InitializeComponent();
-	}
+        _con = con;
+    }
 
     private void EdUsuario_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -35,4 +39,12 @@ public partial class NovaSolicitacao : ContentPage
         }
     }
 
+    private void BtnSalvar_Clicked(object sender, EventArgs e)
+    {
+        Solicitacao solicitacao = new Solicitacao();
+        solicitacao.Solicitante = int.Parse(EdUsuario.Text);
+        solicitacao.DataSolicitacao = DateTime.ParseExact(DtSolicitacao.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedItem;
+        _con.Insert(solicitacao);
+    }
 }
