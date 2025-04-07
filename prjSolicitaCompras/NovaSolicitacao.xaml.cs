@@ -8,21 +8,10 @@ public partial class NovaSolicitacao : ContentPage
     private readonly SQLiteConnection _con;
 
     public NovaSolicitacao(SQLiteConnection con)
-	{
-		InitializeComponent();
-        _con = con;
-    }
-
-    private void EdUsuario_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(EdUsuario.Text))
-        {
-            EdUsuario.BackgroundColor = Colors.Red;
-        }
-        else
-        {
-            EdUsuario.BackgroundColor = Colors.Transparent;
-        }
+        InitializeComponent();
+        _con = con;
+        LoadUsuarios();
     }
 
     private void DtSolicitacao_TextChanged(object sender, TextChangedEventArgs e)
@@ -42,9 +31,14 @@ public partial class NovaSolicitacao : ContentPage
     private void BtnSalvar_Clicked(object sender, EventArgs e)
     {
         Solicitacao solicitacao = new Solicitacao();
-        solicitacao.Solicitante = int.Parse(EdUsuario.Text);
+        solicitacao.Solicitante = (int)EdUsuario.SelectedIndex;
         solicitacao.DataSolicitacao = DateTime.ParseExact(DtSolicitacao.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedItem;
+        solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedIndex;
         _con.Insert(solicitacao);
+    }
+        private void LoadUsuarios()
+    {
+        var usuarios = _con.Table<Usuario>().ToList();
+        EdUsuario.ItemsSource = usuarios.Select(u => u.NomeUsuario).ToList();
     }
 }

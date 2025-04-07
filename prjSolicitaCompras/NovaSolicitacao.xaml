@@ -7,7 +7,7 @@
     <ScrollView>
         <VerticalStackLayout Margin="0,30,0,0">
             <Label Text="Usuário" Margin="10,10,10,0" />
-            <Entry x:Name="EdUsuario" Margin="10,0,10,20" TextChanged="EdUsuario_TextChanged" />
+            <Picker x:Name="EdUsuario" Margin="10,0,10,20" />
 
             <Label Text="Data Solicitação" Margin="10,10,10,0" />
             <Entry x:Name="DtSolicitacao" Margin="10,0,10,20" TextChanged="DtSolicitacao_TextChanged" Placeholder="dd/MM/yyyy" >
