@@ -77,23 +77,8 @@
                 <ImageButton x:Name="BtnVoltar" Source="C:\Users\User\Documents\ACPA Infos\Icons\voltar.png" />
                 <ImageButton x:Name="BtnSair" Source="C:\Users\User\Documents\ACPA Infos\Icons\sair.png" />
             </HorizontalStackLayout>
-            <CollectionView x:Name="ListaSolicitacoes">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="10" Padding="10" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            
-                            <Label Text="{Binding Usuario}" FontSize="Medium" />
-                            <Label Text="{Binding DataSolicitacao}" FontSize="Medium" />
-                            <Label Text="{Binding NivelUrgencia}" FontSize="Medium" />
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+
         </VerticalStackLayout>
+
     </ScrollView>
 </ContentPage>

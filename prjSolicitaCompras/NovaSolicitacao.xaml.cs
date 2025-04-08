@@ -31,11 +31,13 @@ public partial class NovaSolicitacao : ContentPage
     private void BtnSalvar_Clicked(object sender, EventArgs e)
     {
         Solicitacao solicitacao = new Solicitacao();
-        solicitacao.Solicitante = (int)EdUsuario.SelectedIndex;
+        solicitacao.Solicitante = (int)EdUsuario.SelectedIndex+1;
         solicitacao.DataSolicitacao = DateTime.ParseExact(DtSolicitacao.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedIndex;
+        solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedIndex+1;
         _con.Insert(solicitacao);
     }
+
+  
         private void LoadUsuarios()
     {
         var usuarios = _con.Table<Usuario>().ToList();

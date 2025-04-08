@@ -16,5 +16,13 @@ namespace prjSolicitaCompras
         public int Solicitante { get; set; }
         public DateTime DataSolicitacao { get; set; }
         public int NivelUrgencia { get; set; }
+        [Ignore]
+        public string NomeSolicitante { get; set; } = string.Empty;
+        [Ignore]
+        public string StrNivelUrgencia { get; set; } = string.Empty;
+
+
+        public Solicitacao() { }
+
     }
 }
