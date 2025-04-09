@@ -6,12 +6,25 @@ namespace prjSolicitaCompras;
 public partial class NovaSolicitacao : ContentPage
 {
     private readonly SQLiteConnection _con;
+    private readonly Solicitacao _solicitacao;
 
-    public NovaSolicitacao(SQLiteConnection con)
+    public NovaSolicitacao(SQLiteConnection con, Solicitacao solicitacao)
     {
         InitializeComponent();
         _con = con;
+        _solicitacao = solicitacao;
         LoadUsuarios();
+
+        if (_solicitacao.Id == 0)
+        {
+            EdUsuario.SelectedIndex = -1;
+            NivelUrgenciaPicker.SelectedIndex = -1;
+            DtSolicitacao.Text = DateTime.Now.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            LoadSolicitacao(_solicitacao);
+        }
     }
 
     private void DtSolicitacao_TextChanged(object sender, TextChangedEventArgs e)
@@ -30,17 +43,33 @@ public partial class NovaSolicitacao : ContentPage
 
     private void BtnSalvar_Clicked(object sender, EventArgs e)
     {
-        Solicitacao solicitacao = new Solicitacao();
-        solicitacao.Solicitante = (int)EdUsuario.SelectedIndex+1;
-        solicitacao.DataSolicitacao = DateTime.ParseExact(DtSolicitacao.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedIndex+1;
-        _con.Insert(solicitacao);
+        _solicitacao.Solicitante = (int)EdUsuario.SelectedIndex + 1;
+        _solicitacao.DataSolicitacao = DateTime.ParseExact(DtSolicitacao.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        _solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedIndex + 1;
+
+
+        var registroExistente = _con.Find<Solicitacao>(_solicitacao.Id);
+        if (registroExistente != null)
+        {
+            _con.Update(_solicitacao);
+        }
+        else
+        {
+            _con.Insert(_solicitacao);
+        }
     }
 
   
-        private void LoadUsuarios()
+    private void LoadUsuarios()
     {
         var usuarios = _con.Table<Usuario>().ToList();
         EdUsuario.ItemsSource = usuarios.Select(u => u.NomeUsuario).ToList();
+    }
+
+    private void LoadSolicitacao(Solicitacao solicitacao)
+    {
+        EdUsuario.SelectedItem = solicitacao.NomeSolicitante;
+        DtSolicitacao.Text = solicitacao.DataSolicitacao.ToString("dd/MM/yyyy");
+        NivelUrgenciaPicker.SelectedIndex = solicitacao.NivelUrgencia-1;
     }
 }

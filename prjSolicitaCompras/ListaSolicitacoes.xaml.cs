@@ -13,12 +13,10 @@ public partial class ListaSolicitacoes : ContentPage
     {
         InitializeComponent();
         _con = con;
-        LoadSolicitacoes();
     }
 
     private void LoadSolicitacoes()
     {
-        // Adjusted to handle the 'new()' constraint issue by creating a default constructor for 'Solicitacao'.
         var solicitacoes = _con.Table<Solicitacao>().ToList();
 
         var usuarios = _con.Table<Usuario>().ToDictionary(u => u.Id, u => u.NomeUsuario);
@@ -33,7 +31,7 @@ public partial class ListaSolicitacoes : ContentPage
         var StrNiveisUrgencia = new Dictionary<int, string>
         {
             { 1, "Baixa" },
-            { 2, "Média" },
+            { 2, "Médio" },
             { 3, "Alta" }
         };
         foreach (var solicitacao in solicitacoes)
@@ -45,5 +43,21 @@ public partial class ListaSolicitacoes : ContentPage
         }
 
         SolicitacoesListView.ItemsSource = solicitacoes;
+    }
+
+    private async void OnLabelTapped(object sender, EventArgs e)
+    {
+        var label = (Label)sender;
+        var solicitacao = (Solicitacao)label.BindingContext;
+
+        var solicitacaoPage = new NovaSolicitacao(_con, solicitacao);
+
+        await Navigation.PushAsync(solicitacaoPage);
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        LoadSolicitacoes();
     }
 }

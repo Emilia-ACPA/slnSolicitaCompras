@@ -19,7 +19,7 @@ namespace prjSolicitaCompras
         private async void BtnNovaSolicitacao_Clicked(object sender, EventArgs e)
         {
             con.CreateTable<Solicitacao>();
-            await Navigation.PushAsync(new NovaSolicitacao(con));
+            await Navigation.PushAsync(new NovaSolicitacao(con, new Solicitacao()));
         }
 
         private async void BtnListaSolicitacoes_Clicked(object sender, EventArgs e)
