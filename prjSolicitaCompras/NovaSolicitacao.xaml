@@ -35,42 +35,55 @@
                 </HorizontalStackLayout>
             </Border>
 
-            <Border Stroke="Black" Margin="10,0,10,0">
-                <ScrollView>
-                    <Grid Margin="10,10,10,10" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                        <Entry x:Name="Codigo1" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" />
-                        <Entry x:Name="Descricao1" Grid.Row="0" Grid.Column="1" />
-                        <Entry x:Name="Codigo2" Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" />
-                        <Entry x:Name="Descricao2" Grid.Row="1" Grid.Column="1" />
-                        <Entry x:Name="Codigo3" Grid.Row="2" Grid.Column="0" Margin="0,0,5,0" />
-                        <Entry x:Name="Descricao3" Grid.Row="2" Grid.Column="1" />
-                        <Entry x:Name="Codigo4" Grid.Row="3" Grid.Column="0" Margin="0,0,5,0" />
-                        <Entry x:Name="Descricao4" Grid.Row="3" Grid.Column="1" />
-                        <Entry x:Name="Codigo5" Grid.Row="4" Grid.Column="0" Margin="0,0,5,0" />
-                        <Entry x:Name="Descricao5" Grid.Row="4" Grid.Column="1" />
-                        <Entry x:Name="Codigo6" Grid.Row="5" Grid.Column="0" Margin="0,0,5,0" />
-                        <Entry x:Name="Descricao6" Grid.Row="5" Grid.Column="1" />
-                        <Entry x:Name="Codigo7" Grid.Row="6" Grid.Column="0" Margin="0,0,5,0" />
-                        <Entry x:Name="Descricao7" Grid.Row="6" Grid.Column="1" />
-                    </Grid>
+                <ScrollView Grid.Row="0" Grid.Column="0" >
+                    <VerticalStackLayout>
+                        <Border Stroke="Black" Margin="10,0,10,0">
+                            <Grid Margin="10,10,10,10" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Entry x:Name="Codigo1" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" />
+                                <Entry x:Name="Descricao1" Grid.Row="0" Grid.Column="1" />
+                                <Entry x:Name="Codigo2" Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" />
+                                <Entry x:Name="Descricao2" Grid.Row="1" Grid.Column="1" />
+                                <Entry x:Name="Codigo3" Grid.Row="2" Grid.Column="0" Margin="0,0,5,0" />
+                                <Entry x:Name="Descricao3" Grid.Row="2" Grid.Column="1" />
+                                <Entry x:Name="Codigo4" Grid.Row="3" Grid.Column="0" Margin="0,0,5,0" />
+                                <Entry x:Name="Descricao4" Grid.Row="3" Grid.Column="1" />
+                                <Entry x:Name="Codigo5" Grid.Row="4" Grid.Column="0" Margin="0,0,5,0" />
+                                <Entry x:Name="Descricao5" Grid.Row="4" Grid.Column="1" />
+                                <Entry x:Name="Codigo6" Grid.Row="5" Grid.Column="0" Margin="0,0,5,0" />
+                                <Entry x:Name="Descricao6" Grid.Row="5" Grid.Column="1" />
+                                <Entry x:Name="Codigo7" Grid.Row="6" Grid.Column="0" Margin="0,0,5,0" />
+                                <Entry x:Name="Descricao7" Grid.Row="6" Grid.Column="1" />
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
                 </ScrollView>
-            </Border>
 
-            <Border Grid.Row="1" Stroke="Black" Margin="10,20,10,10">
+            </Grid>
+
+            <Border Stroke="Black" Margin="10,20,10,10">
                 <HorizontalStackLayout Padding="1" Margin="1,0,0,0" Spacing="10">
                     <ImageButton x:Name="BtnSalvar"     Padding="1" WidthRequest="50" HeightRequest="50" Source="C:\Users\User\Documents\ACPA Infos\Icons\salvar.png" Clicked="BtnSalvar_Clicked" />
                     <ImageButton x:Name="BtnCancelar"   Padding="1" WidthRequest="50" HeightRequest="50" Source="C:\Users\User\Documents\ACPA Infos\Icons\cancelar.png" Clicked="BtnCancelar_Clicked" />
@@ -79,8 +92,8 @@
                     <ImageButton x:Name="BtnSair"       Padding="1" WidthRequest="50" HeightRequest="50" Source="C:\Users\User\Documents\ACPA Infos\Icons\sair.png" />
                 </HorizontalStackLayout>
             </Border>
-
         </VerticalStackLayout>
 
     </ScrollView>
+
 </ContentPage>
