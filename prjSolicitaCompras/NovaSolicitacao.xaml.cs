@@ -17,9 +17,7 @@ public partial class NovaSolicitacao : ContentPage
 
         if (_solicitacao.Id == 0)
         {
-            EdUsuario.SelectedIndex = -1;
-            NivelUrgenciaPicker.SelectedIndex = -1;
-            DtSolicitacao.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            LimparSolicitacao(_solicitacao);
         }
         else
         {
@@ -41,21 +39,35 @@ public partial class NovaSolicitacao : ContentPage
         }
     }
 
-    private void BtnSalvar_Clicked(object sender, EventArgs e)
+    private async void BtnSalvar_Clicked(object sender, EventArgs e)
     {
         _solicitacao.Solicitante = (int)EdUsuario.SelectedIndex + 1;
         _solicitacao.DataSolicitacao = DateTime.ParseExact(DtSolicitacao.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         _solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedIndex + 1;
 
+        if (_solicitacao.Solicitante == 0 || _solicitacao.NivelUrgencia == 0 || _solicitacao.DataSolicitacao == DateTime.MinValue)
+        {
+            await DisplayAlert("Erro", "Favor preencher todos os campos e tente novamente.", "OK");
+            return;
+        }
 
         var registroExistente = _con.Find<Solicitacao>(_solicitacao.Id);
         if (registroExistente != null)
         {
-            _con.Update(_solicitacao);
+            bool confirmacao = await DisplayAlert(
+                "Confirmação", "Qualquer alteração feita será registrada. Deseja salvar?",
+                "Sim", "Não"
+            );
+
+            if (confirmacao) {
+                _con.Update(_solicitacao);
+                await DisplayAlert("Sucesso", "Solicitação salva com sucesso.", "OK");
+            }
         }
         else
         {
             _con.Insert(_solicitacao);
+            await DisplayAlert("Sucesso", "Nova solicitação inserida com sucesso.", "OK");
         }
     }
 
@@ -71,5 +83,50 @@ public partial class NovaSolicitacao : ContentPage
         EdUsuario.SelectedItem = solicitacao.NomeSolicitante;
         DtSolicitacao.Text = solicitacao.DataSolicitacao.ToString("dd/MM/yyyy");
         NivelUrgenciaPicker.SelectedIndex = solicitacao.NivelUrgencia-1;
+    }
+
+    private void LimparSolicitacao(Solicitacao solicitacao)
+    {
+        EdUsuario.SelectedIndex = -1;
+        NivelUrgenciaPicker.SelectedIndex = -1;
+        DtSolicitacao.Text = DateTime.Now.ToString("dd/MM/yyyy");
+    }
+
+    private async void BtnExcluir_Clicked(object sender, EventArgs e)
+    {
+        bool confirmacao = await DisplayAlert(
+            "Confirmação", "Tem certeza de que deseja excluir esta solicitação?",
+            "Sim", "Não"
+        );
+
+        var registroExistente = _con.Find<Solicitacao>(_solicitacao.Id);
+        if (registroExistente != null)
+        {
+            if (confirmacao)
+            {
+                _con.Delete(_solicitacao);
+                await DisplayAlert("Sucesso", "Solicitação excluída com sucesso.", "OK");
+                await Navigation.PopAsync();
+            }
+        }
+
+    }
+
+    private async void BtnVoltar_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PopAsync();
+    }
+
+    private async void BtnCancelar_Clicked(object sender, EventArgs e)
+    {
+        bool confirmacao = await DisplayAlert(
+            "Confirmação", "Todas as alterações feitas serão perdidas?",
+            "Sim", "Não"
+        );
+
+        if (confirmacao)
+        {
+            LoadSolicitacao(_solicitacao);
+        }
     }
 }
