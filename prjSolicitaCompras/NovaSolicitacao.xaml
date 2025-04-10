@@ -47,19 +47,17 @@
                 <ScrollView Grid.Row="0" Grid.Column="0" >
                     <VerticalStackLayout>
                         <Border Stroke="Black" Margin="10,0,10,0">
-                            <Grid Margin="10,10,10,10" >
+                            <Grid x:Name="gridItensSolicitacao" Margin="10,10,10,10" >
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
+                                    <!-- Alimentado automaticamente-->
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" /> <!-- Código -->
+                                    <ColumnDefinition Width="Auto" /> <!-- Descrição -->
+                                    <ColumnDefinition Width="Auto" /> <!-- UnidadeMedida --> 
+                                    <ColumnDefinition Width="Auto" /> <!-- Quantidade -->
+                                    <ColumnDefinition Width="Auto" /> <!-- Valor Unitário -->
+                                    <ColumnDefinition Width="Auto" /> <!-- Valor Total -->
                                 </Grid.ColumnDefinitions>
 
                                 <Entry x:Name="Codigo1" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" />

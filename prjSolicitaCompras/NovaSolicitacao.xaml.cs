@@ -11,8 +11,13 @@ public partial class NovaSolicitacao : ContentPage
     public NovaSolicitacao(SQLiteConnection con, Solicitacao solicitacao)
     {
         InitializeComponent();
+
         _con = con;
         _solicitacao = solicitacao;
+        //var itens = con.Table<ItemSolicitacao>()
+        //               .Where(i => i.IdSolicitacao == _solicitacao.Id)
+        //               .ToList();
+
         LoadUsuarios();
 
         if (_solicitacao.Id == 0)
@@ -22,7 +27,20 @@ public partial class NovaSolicitacao : ContentPage
         else
         {
             LoadSolicitacao(_solicitacao);
+
+//            CarregarItensSolicitacao(itens);
+
         }
+    }
+
+    private void CarregarItensSolicitacao(List<ItemSolicitacao> itens)
+    {
+        gridItensSolicitacao.Children.Clear();
+        gridItensSolicitacao.RowDefinitions.Clear();
+
+        gridItensSolicitacao.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+        //A continuar implementando o preenchimento da grid com os itens
     }
 
     private void DtSolicitacao_TextChanged(object sender, TextChangedEventArgs e)
