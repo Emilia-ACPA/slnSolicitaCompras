@@ -22,7 +22,7 @@ public partial class ListaSolicitacoes : ContentPage
         var usuarios = _con.Table<Usuario>().ToDictionary(u => u.Id, u => u.NomeUsuario);
         foreach (var solicitacao in solicitacoes)
         {
-            if (usuarios.TryGetValue(solicitacao.Solicitante, out var nomeUsuario))
+            if (usuarios.TryGetValue(solicitacao.IdSolicitante, out var nomeUsuario))
             {
                 solicitacao.NomeSolicitante = nomeUsuario;
             }

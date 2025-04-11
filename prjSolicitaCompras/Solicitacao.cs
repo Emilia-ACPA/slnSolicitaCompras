@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
 using SQLite;
 
 namespace prjSolicitaCompras
@@ -15,7 +16,8 @@ namespace prjSolicitaCompras
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         [Required]
-        public int Solicitante { get; set; }
+        [ForeignKey("Usuario")]
+        public int IdSolicitante { get; set; }
         [Required]
         public DateTime DataSolicitacao { get; set; }
         [Required]
@@ -29,20 +31,23 @@ namespace prjSolicitaCompras
         [Ignore]
         public List<ItemSolicitacao> ItensSolicitacao { get; set; } = new List<ItemSolicitacao>();
 
-        public Solicitacao() { }
-
-        public void CarregarItensSolicitacao(SQLiteConnection con)
-        {
-            ItensSolicitacao = con.Table<ItemSolicitacao>().Where(i => i.IdSolicitacao == Id).ToList();
-            //foreach (var item in ItensSolicitacao)
-            //{
-            //    var unidadeMedida = con.Table<UnidadeMedida>().FirstOrDefault(u => u.Id == item.IdUnidadeMedida);
-            //    if (unidadeMedida != null)
-            //    {
-            //        item.UnidadeMedida = unidadeMedida.Descricao;
-            //    }
-            //}
+        public Solicitacao() {
         }
+
+        //public void CarregarItensSolicitacao(SQLiteConnection con)
+        //{
+
+        //    ItensSolicitacao = con.Table<ItemSolicitacao>().Where(i => i.IdSolicitacao == Id).ToList();
+
+        //    foreach (var item in ItensSolicitacao)
+        //    {
+        //        var unidadeMedida = con.Table<UnidadeMedida>().FirstOrDefault(u => u.Id == item.IdUnidadeMedida);
+        //        if (unidadeMedida != null)
+        //        {
+        //            item.UnidadeMedida = unidadeMedida.Descricao;
+        //        }
+        //    }
+        //}
 
 
         //CHAMADA PARA CARREGAMENTO DE ITENS a ser utilizada a qualquer manipulação de instância de Solicitacao no projeto
