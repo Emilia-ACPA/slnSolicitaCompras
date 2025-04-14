@@ -28,58 +28,24 @@
             </Picker>
 
             <Label Text="Itens da Solicitação" Margin="10,30,10,10" FontAttributes="Bold" FontSize="Subtitle" />
-            <Border Stroke  ="Black" Padding="5" Margin="10,0,10,0">
-                <HorizontalStackLayout>
-                    <Label Text="Código" Margin="5,0,5,5" FontAttributes="Bold" />
-                    <Label Text="Descrição" Margin="0,0,0,5" FontAttributes="Bold" />
-                </HorizontalStackLayout>
-            </Border>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <ScrollView Grid.Row="0" Grid.Column="0" >
-                    <VerticalStackLayout>
-                        <Border Stroke="Black" Margin="10,0,10,0">
-                            <Grid x:Name="gridItensSolicitacao" Margin="10,10,10,10" >
-                                <Grid.RowDefinitions>
-                                    <!-- Alimentado automaticamente-->
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" /> <!-- Código -->
-                                    <ColumnDefinition Width="Auto" /> <!-- Descrição -->
-                                    <ColumnDefinition Width="Auto" /> <!-- UnidadeMedida --> 
-                                    <ColumnDefinition Width="Auto" /> <!-- Quantidade -->
-                                    <ColumnDefinition Width="Auto" /> <!-- Valor Unitário -->
-                                    <ColumnDefinition Width="Auto" /> <!-- Valor Total -->
-                                </Grid.ColumnDefinitions>
-
-                                <Entry x:Name="Codigo1" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" />
-                                <Entry x:Name="Descricao1" Grid.Row="0" Grid.Column="1" />
-                                <Entry x:Name="Codigo2" Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" />
-                                <Entry x:Name="Descricao2" Grid.Row="1" Grid.Column="1" />
-                                <Entry x:Name="Codigo3" Grid.Row="2" Grid.Column="0" Margin="0,0,5,0" />
-                                <Entry x:Name="Descricao3" Grid.Row="2" Grid.Column="1" />
-                                <Entry x:Name="Codigo4" Grid.Row="3" Grid.Column="0" Margin="0,0,5,0" />
-                                <Entry x:Name="Descricao4" Grid.Row="3" Grid.Column="1" />
-                                <Entry x:Name="Codigo5" Grid.Row="4" Grid.Column="0" Margin="0,0,5,0" />
-                                <Entry x:Name="Descricao5" Grid.Row="4" Grid.Column="1" />
-                                <Entry x:Name="Codigo6" Grid.Row="5" Grid.Column="0" Margin="0,0,5,0" />
-                                <Entry x:Name="Descricao6" Grid.Row="5" Grid.Column="1" />
-                                <Entry x:Name="Codigo7" Grid.Row="6" Grid.Column="0" Margin="0,0,5,0" />
-                                <Entry x:Name="Descricao7" Grid.Row="6" Grid.Column="1" />
-                            </Grid>
-                        </Border>
-                    </VerticalStackLayout>
-                </ScrollView>
-
-            </Grid>
+            <ScrollView Grid.Row="0" Grid.Column="0" Orientation="Both"  >
+                <Border Stroke="Black" Margin="10,0,10,0">
+                    <Grid x:Name="gridItensSolicitacao" Margin="10,10,10,10" >
+                        <Grid.RowDefinitions> <!--Alimentado automaticamente-->
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" /> <!--Código-->
+                            <ColumnDefinition Width="Auto" /> <!--//Descrição-->
+                            <ColumnDefinition Width="Auto" /> <!--//UnidadeMedida-->
+                            <ColumnDefinition Width="Auto" /> <!--//Quantidade-->
+                            <ColumnDefinition Width="Auto" /> <!--//Valor Unitário-->
+                            <ColumnDefinition Width="Auto" /> <!--//Valor Total-->
+                            <ColumnDefinition Width="Auto" /> <!--//Botão Adicionar Item-->
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </Border>
+            </ScrollView>
 
             <Border Stroke="Black" Margin="10,20,10,10">
                 <HorizontalStackLayout Padding="1" Margin="1,0,0,0" Spacing="10">

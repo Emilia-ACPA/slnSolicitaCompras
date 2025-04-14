@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Linq;
 using SQLite;
 
 namespace prjSolicitaCompras;
@@ -23,10 +24,13 @@ public partial class NovaSolicitacao : ContentPage
             if (_solicitacao.Id == 0)
             {
                 AddNovaSolicitacao(_solicitacao);
+                CarregarCabecalhoItens();
+                NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
             }
             else
             {
                 LoadSolicitacao(_solicitacao);
+                CarregarCabecalhoItens();
                 CarregarItensSolicitacao(_solicitacao.ItensSolicitacao);
             }
         }
@@ -36,11 +40,99 @@ public partial class NovaSolicitacao : ContentPage
         }
     }
 
-    private void CarregarItensSolicitacao(List<ItemSolicitacao> itens)
+    private void NovoItemSolicitacao(List<ItemSolicitacao> itens)
+    {
+        gridItensSolicitacao.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+        int linhaAtual = itens.Count + 1;
+
+        // Código
+        var edCodigo = new Entry
+        {
+            MaximumWidthRequest = 80
+        };
+        Grid.SetRow(edCodigo, linhaAtual );
+        Grid.SetColumn(edCodigo, 0);
+        this.gridItensSolicitacao.Children.Add(edCodigo);
+
+        // Descrição
+        var edDescricao = new Entry
+        {
+            MaximumWidthRequest = 800
+        };
+        Grid.SetRow(edDescricao, linhaAtual);
+        Grid.SetColumn(edDescricao, 1);
+        gridItensSolicitacao.Children.Add(edDescricao);
+
+        // Quantidade
+        var edQuantidade = new Entry
+        {
+            Keyboard = Keyboard.Numeric,
+            MaximumWidthRequest = 150
+        };
+        //edQuantidade.TextChanged += (sender, e) =>
+        //{
+        //    if (decimal.TryParse(e.NewTextValue, out var quantidade))
+        //    {
+        //        MaximumWidthRequest = 150;
+        //    }
+        //};
+        Grid.SetRow(edQuantidade, linhaAtual);
+        Grid.SetColumn(edQuantidade, 2);
+        gridItensSolicitacao.Children.Add(edQuantidade);
+
+        // Valor Unitário
+        var edValorUnitario = new Entry
+        {
+//            Text = itens[linhaAtual].ValorUnitario.ToString("F2"),
+            Keyboard = Keyboard.Numeric,
+        };
+        //edValorUnitario.TextChanged += (sender, e) =>
+        //{
+        //    if (decimal.TryParse(e.NewTextValue, out var valorUnitario))
+        //    {
+        //        itens[linhaAtual].ValorUnitario = valorUnitario;
+        //    }
+        //};
+        Grid.SetRow(edValorUnitario, linhaAtual);
+        Grid.SetColumn(edValorUnitario, 3);
+        gridItensSolicitacao.Children.Add(edValorUnitario);
+
+        // Valor Total
+        var lbCalcValorTotal = new Label
+        {
+//            Text = itens[linhaAtual].ValorTotal.ToString("F2"),
+        };
+        Grid.SetRow(lbCalcValorTotal, linhaAtual);
+        Grid.SetColumn(lbCalcValorTotal, 4);
+        gridItensSolicitacao.Children.Add(lbCalcValorTotal);
+
+        // Botão AddItem
+        var btAddItem = new Button
+        {
+//            FontAttributes = FontAttributes.Bold,
+            HorizontalOptions = LayoutOptions.Center,
+//            IsVisible = true,
+        };
+        Grid.SetRow(btAddItem, linhaAtual);
+        Grid.SetColumn(btAddItem, 5);
+        btAddItem.HeightRequest = 50;
+        btAddItem.WidthRequest = 50;
+        btAddItem.ImageSource = "C:\\Users\\User\\Documents\\ACPA Infos\\Icons\\AdicionarItem.png";
+        btAddItem.GestureRecognizers.Add(new TapGestureRecognizer
+        {
+            Command = new Command(() =>
+            {
+                AdicionarItemSolicitacao(linhaAtual);
+            })
+        });
+        gridItensSolicitacao.Children.Add(btAddItem);
+    }
+
+    private void CarregarCabecalhoItens()
     {
         gridItensSolicitacao.Children.Clear();
         gridItensSolicitacao.RowDefinitions.Clear();
-
         gridItensSolicitacao.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
         // Cabeçalho do Grid de Itens
@@ -93,6 +185,20 @@ public partial class NovaSolicitacao : ContentPage
         Grid.SetRow(lbValorTotal, 0);
         Grid.SetColumn(lbValorTotal, 4);
         this.gridItensSolicitacao.Children.Add(lbValorTotal);
+
+        var lbAddItem = new Label
+        {
+            FontAttributes = FontAttributes.Bold,
+            MinimumWidthRequest = 50
+        };
+        Grid.SetRow(lbAddItem, 0);
+        Grid.SetColumn(lbAddItem, 5);
+        this.gridItensSolicitacao.Children.Add(lbAddItem);
+    }
+
+    private void CarregarItensSolicitacao(List<ItemSolicitacao> itens)
+    {
+        CarregarCabecalhoItens();
 
         // Itens da Solicitação
         for (int i = 0; i < itens.Count; i++)
@@ -169,6 +275,23 @@ public partial class NovaSolicitacao : ContentPage
             Grid.SetColumn(lbCalcValorTotal, 4);
             gridItensSolicitacao.Children.Add(lbCalcValorTotal);
         }
+
+        if (itens.Count == 0)
+        {
+            NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
+        }
+    }
+
+    private void AdicionarItemSolicitacao(int indexLinha)
+    {
+        ItemSolicitacao _itemSolicitacao = new ItemSolicitacao(_solicitacao.Id);
+        _itemSolicitacao.IdItem = (int)EdUsuario.SelectedIndex + 1;
+        _itemSolicitacao.DescricaoItem = ((Entry)gridItensSolicitacao.Children[indexLinha * 6 + 1]).Text;
+        _itemSolicitacao.Quantidade = decimal.Parse(((Entry)gridItensSolicitacao.Children[indexLinha * 6 + 2]).Text);
+        _itemSolicitacao.ValorUnitario = decimal.Parse(((Entry)gridItensSolicitacao.Children[indexLinha * 6 + 3]).Text);
+        _itemSolicitacao.ValorTotal = _itemSolicitacao.Quantidade * _itemSolicitacao.ValorUnitario;
+
+        _con.Insert(_itemSolicitacao);
     }
 
     private void DtSolicitacao_TextChanged(object sender, TextChangedEventArgs e)
@@ -256,7 +379,6 @@ public partial class NovaSolicitacao : ContentPage
                 await Navigation.PopAsync();
             }
         }
-
     }
 
     private async void BtnVoltar_Clicked(object sender, EventArgs e)
@@ -274,6 +396,8 @@ public partial class NovaSolicitacao : ContentPage
         if (confirmacao)
         {
             LoadSolicitacao(_solicitacao);
+            CarregarItensSolicitacao(_solicitacao.ItensSolicitacao);
+            NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
         }
     }
 }
