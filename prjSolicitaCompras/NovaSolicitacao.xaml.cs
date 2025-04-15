@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Linq;
 using SQLite;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace prjSolicitaCompras;
 
@@ -30,8 +31,8 @@ public partial class NovaSolicitacao : ContentPage
             else
             {
                 LoadSolicitacao(_solicitacao);
-                CarregarCabecalhoItens();
-                CarregarItensSolicitacao(_solicitacao.ItensSolicitacao);
+                CarregarItensSolicitacao(_solicitacao.Id);
+                NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
             }
         }
         catch (SQLiteException e)
@@ -56,13 +57,22 @@ public partial class NovaSolicitacao : ContentPage
         this.gridItensSolicitacao.Children.Add(edCodigo);
 
         // Descrição
-        var edDescricao = new Entry
+        var edDescricao = new Picker
         {
             MaximumWidthRequest = 800
         };
         Grid.SetRow(edDescricao, linhaAtual);
         Grid.SetColumn(edDescricao, 1);
         gridItensSolicitacao.Children.Add(edDescricao);
+
+        // Unidade de Medida
+        var edUnidadeMedida = new Picker
+        {
+            MaximumWidthRequest = 50
+        };
+        Grid.SetRow(edUnidadeMedida, linhaAtual);
+        Grid.SetColumn(edUnidadeMedida, 1);
+        gridItensSolicitacao.Children.Add(edUnidadeMedida);
 
         // Quantidade
         var edQuantidade = new Entry
@@ -156,6 +166,16 @@ public partial class NovaSolicitacao : ContentPage
         Grid.SetColumn(lbDescricao, 1);
         this.gridItensSolicitacao.Children.Add(lbDescricao);
 
+        var lbUnidadeMedida = new Label
+        {
+            Text = "Und Medida",
+            FontAttributes = FontAttributes.Bold,
+            MinimumWidthRequest = 50
+        };
+        Grid.SetRow(lbUnidadeMedida, 0);
+        Grid.SetColumn(lbUnidadeMedida, 1);
+        this.gridItensSolicitacao.Children.Add(lbUnidadeMedida);
+
         var lbQuantidade = new Label
         {
             Text = "Quantidade",
@@ -196,8 +216,15 @@ public partial class NovaSolicitacao : ContentPage
         this.gridItensSolicitacao.Children.Add(lbAddItem);
     }
 
-    private void CarregarItensSolicitacao(List<ItemSolicitacao> itens)
+    private void CarregarItensSolicitacao(int _idSolicitacao)
     {
+        List<ItemSolicitacao> itens = _con.Table<ItemSolicitacao>()
+            .Where(i => i.IdSolicitacao == _idSolicitacao)
+            .ToList();
+
+        _solicitacao.ItensSolicitacao = itens;
+
+        // Limpa e carrega cabeçalho
         CarregarCabecalhoItens();
 
         // Itens da Solicitação
@@ -220,14 +247,32 @@ public partial class NovaSolicitacao : ContentPage
             gridItensSolicitacao.Children.Add(edCodigo);
 
             // Descrição
-            var edDescricao = new Entry
+            var edDescricao = new Picker
             {
-                Text = item.DescricaoItem,
+                Title = "Selecione o item",
+                ItemsSource = _con.Table<Item>().Select(i => i.Descricao).ToList(),
+                SelectedItem = item.DescricaoItem,
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
+            edDescricao.SelectedIndexChanged += Picker_SelectedIndexChanged;
             Grid.SetRow(edDescricao, i + 1);
             Grid.SetColumn(edDescricao, 1);
             gridItensSolicitacao.Children.Add(edDescricao);
+
+            // Unidade de Medida
+            var edUnidadeMedida = new Picker
+            {
+                Title = "Selecione a Unidade de Medida",
+                ItemsSource = _con.Table<UnidadeMedida>().Select(u => u.Descricao).ToList(),
+                SelectedItem = item.UnidadeMedida,
+                IsEnabled = false,
+                IsVisible = true,
+                WidthRequest = 50,
+                HeightRequest = 50,
+            };
+            Grid.SetRow(edUnidadeMedida, i + 1);
+            Grid.SetColumn(edUnidadeMedida, 2);
+            gridItensSolicitacao.Children.Add(edUnidadeMedida);
 
             // Quantidade
             var edQuantidade = new Entry
@@ -244,7 +289,7 @@ public partial class NovaSolicitacao : ContentPage
                 }
             };
             Grid.SetRow(edQuantidade, i + 1);
-            Grid.SetColumn(edQuantidade, 2);
+            Grid.SetColumn(edQuantidade, 3);
             gridItensSolicitacao.Children.Add(edQuantidade);
 
             // Valor Unitário
@@ -262,7 +307,7 @@ public partial class NovaSolicitacao : ContentPage
                 }
             };
             Grid.SetRow(edValorUnitario, i + 1);
-            Grid.SetColumn(edValorUnitario, 3);
+            Grid.SetColumn(edValorUnitario, 4);
             gridItensSolicitacao.Children.Add(edValorUnitario);
 
             // Valor Total
@@ -272,23 +317,39 @@ public partial class NovaSolicitacao : ContentPage
                 HorizontalOptions = LayoutOptions.Center
             };
             Grid.SetRow(lbCalcValorTotal, i + 1);
-            Grid.SetColumn(lbCalcValorTotal, 4);
+            Grid.SetColumn(lbCalcValorTotal, 5);
             gridItensSolicitacao.Children.Add(lbCalcValorTotal);
         }
+    }
 
-        if (itens.Count == 0)
+    private void Picker_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (sender is Picker descricaoPicker && descricaoPicker.BindingContext is ItemSolicitacao item)
         {
-            NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
+            string valorSelecionado = descricaoPicker.SelectedItem?.ToString();
+            item.DescricaoItem = valorSelecionado;
         }
     }
 
     private void AdicionarItemSolicitacao(int indexLinha)
     {
-        ItemSolicitacao _itemSolicitacao = new ItemSolicitacao(_solicitacao.Id);
-        _itemSolicitacao.IdItem = (int)EdUsuario.SelectedIndex + 1;
-        _itemSolicitacao.DescricaoItem = ((Entry)gridItensSolicitacao.Children[indexLinha * 6 + 1]).Text;
-        _itemSolicitacao.Quantidade = decimal.Parse(((Entry)gridItensSolicitacao.Children[indexLinha * 6 + 2]).Text);
-        _itemSolicitacao.ValorUnitario = decimal.Parse(((Entry)gridItensSolicitacao.Children[indexLinha * 6 + 3]).Text);
+        ItemSolicitacao _itemSolicitacao = new ItemSolicitacao();
+
+        _itemSolicitacao.IdSolicitacao = _solicitacao.Id;
+
+//        var pickerDescricao = (Picker)gridItensSolicitacao.Children
+        //    .FirstOrDefault(c => (Picker)Grid.GetRow(c) == indexLinha && Grid.GetColumn(c) == 1);
+
+        //if (pickerDescricao != null)
+        //{
+        //    var descricaoSelecionada = pickerDescricao.SelectedItem?.ToString();
+
+        //}
+
+        //_itemSolicitacao.IdItem = pickerDescricao.SelectedIndex;
+//        _itemSolicitacao.UnidadeMedida = pickerUnidadeMedida.SelectedIndex;
+        _itemSolicitacao.Quantidade = decimal.Parse(((Entry)gridItensSolicitacao.Children[indexLinha]).Text);
+        _itemSolicitacao.ValorUnitario = decimal.Parse(((Entry)gridItensSolicitacao.Children[indexLinha]).Text);
         _itemSolicitacao.ValorTotal = _itemSolicitacao.Quantidade * _itemSolicitacao.ValorUnitario;
 
         _con.Insert(_itemSolicitacao);
@@ -396,7 +457,7 @@ public partial class NovaSolicitacao : ContentPage
         if (confirmacao)
         {
             LoadSolicitacao(_solicitacao);
-            CarregarItensSolicitacao(_solicitacao.ItensSolicitacao);
+            CarregarItensSolicitacao(_solicitacao.Id);
             NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
         }
     }
