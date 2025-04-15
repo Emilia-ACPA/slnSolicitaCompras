@@ -49,11 +49,11 @@
 
             <Border Stroke="Black" Margin="10,20,10,10">
                 <HorizontalStackLayout Padding="1" Margin="1,0,0,0" Spacing="10">
-                    <ImageButton x:Name="BtnSalvar"     Padding="1" WidthRequest="50" HeightRequest="50" Source="C:\Users\User\Documents\ACPA Infos\Icons\salvar.png" Clicked="BtnSalvar_Clicked" />
-                    <ImageButton x:Name="BtnCancelar"   Padding="1" WidthRequest="50" HeightRequest="50" Source="C:\Users\User\Documents\ACPA Infos\Icons\cancelar.png" Clicked="BtnCancelar_Clicked" />
-                    <ImageButton x:Name="BtnExcluir"    Padding="1" WidthRequest="50" HeightRequest="50" Source="C:\Users\User\Documents\ACPA Infos\Icons\Excluir.png" Clicked="BtnExcluir_Clicked" />
-                    <ImageButton x:Name="BtnVoltar"     Padding="1" WidthRequest="50" HeightRequest="50" Source="C:\Users\User\Documents\ACPA Infos\Icons\voltar.png" Clicked="BtnVoltar_Clicked" />
-                    <ImageButton x:Name="BtnSair"       Padding="1" WidthRequest="50" HeightRequest="50" Source="C:\Users\User\Documents\ACPA Infos\Icons\sair.png" />
+                    <ImageButton x:Name="BtnSalvar"     Padding="1" WidthRequest="50" HeightRequest="50" Source="salvar.png" Clicked="BtnSalvar_Clicked" />
+                    <ImageButton x:Name="BtnCancelar"   Padding="1" WidthRequest="50" HeightRequest="50" Source="cancelar.png" Clicked="BtnCancelar_Clicked" />
+                    <ImageButton x:Name="BtnExcluir"    Padding="1" WidthRequest="50" HeightRequest="50" Source="Excluir.png" Clicked="BtnExcluir_Clicked" />
+                    <ImageButton x:Name="BtnVoltar"     Padding="1" WidthRequest="50" HeightRequest="50" Source="voltar.png" Clicked="BtnVoltar_Clicked" />
+                    <ImageButton x:Name="BtnSair"       Padding="1" WidthRequest="50" HeightRequest="50" Source="sair.png" />
                 </HorizontalStackLayout>
             </Border>
         </VerticalStackLayout>

@@ -118,7 +118,7 @@ public partial class NovaSolicitacao : ContentPage
         Grid.SetColumn(btAddItem, 5);
         btAddItem.HeightRequest = 50;
         btAddItem.WidthRequest = 50;
-        btAddItem.ImageSource = "C:\\Users\\User\\Documents\\ACPA Infos\\Icons\\AdicionarItem.png";
+        btAddItem.ImageSource = "adicionaritem.png";
         btAddItem.GestureRecognizers.Add(new TapGestureRecognizer
         {
             Command = new Command(() =>

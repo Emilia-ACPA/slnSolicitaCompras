@@ -10,14 +10,16 @@ namespace prjSolicitaCompras
         public MainPage()
         {
             InitializeComponent();
-
-            dbPath = "C:\\DSV\\Compras\\slnSolicitaCompras\\Compras.db3"; //System.IO.Path.Combine(FileSystem.AppDataDirectory, "Compras.db3");
+            dbPath = Path.Combine(FileSystem.Current.AppDataDirectory, "Compras.db3");
             con = new SQLiteConnection(dbPath);
             con.Execute("PRAGMA foreign_keys = ON;");
             con.CreateTable<Usuario>();
             con.CreateTable<Item>();
             con.CreateTable<UnidadeMedida>();
             con.CreateTable<Solicitacao>();
+
+            Console.WriteLine($"Caminho do banco de dados: {dbPath}");
+
         }
 
         private async void BtnNovaSolicitacao_Clicked(object sender, EventArgs e)
