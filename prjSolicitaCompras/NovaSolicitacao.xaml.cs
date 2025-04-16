@@ -59,7 +59,9 @@ public partial class NovaSolicitacao : ContentPage
         // Descrição
         var edDescricao = new Picker
         {
-            MaximumWidthRequest = 800
+            MaximumWidthRequest = 800,
+            ItemsSource = _con.Table<Item>().Select(i => i.Descricao).ToList(),
+            SelectedItem = itens[linhaAtual],
         };
         Grid.SetRow(edDescricao, linhaAtual);
         Grid.SetColumn(edDescricao, 1);
@@ -68,7 +70,9 @@ public partial class NovaSolicitacao : ContentPage
         // Unidade de Medida
         var edUnidadeMedida = new Picker
         {
-            MaximumWidthRequest = 50
+            MaximumWidthRequest = 50,
+            ItemsSource = _con.Table<UnidadeMedida>().Select(i => i.Descricao).ToList(),
+            SelectedItem = itens[linhaAtual].UnidadeMedida,
         };
         Grid.SetRow(edUnidadeMedida, linhaAtual);
         Grid.SetColumn(edUnidadeMedida, 1);
@@ -265,8 +269,6 @@ public partial class NovaSolicitacao : ContentPage
                 Title = "Selecione a Unidade de Medida",
                 ItemsSource = _con.Table<UnidadeMedida>().Select(u => u.Descricao).ToList(),
                 SelectedItem = item.UnidadeMedida,
-                IsEnabled = false,
-                IsVisible = true,
                 WidthRequest = 50,
                 HeightRequest = 50,
             };
@@ -337,19 +339,43 @@ public partial class NovaSolicitacao : ContentPage
 
         _itemSolicitacao.IdSolicitacao = _solicitacao.Id;
 
-//        var pickerDescricao = (Picker)gridItensSolicitacao.Children
-        //    .FirstOrDefault(c => (Picker)Grid.GetRow(c) == indexLinha && Grid.GetColumn(c) == 1);
+        var pickerDescricao = gridItensSolicitacao.Children
+            .OfType<Picker>()
+            .FirstOrDefault(c => Grid.GetRow(c) == indexLinha && Grid.GetColumn(c) == 1);
 
-        //if (pickerDescricao != null)
-        //{
-        //    var descricaoSelecionada = pickerDescricao.SelectedItem?.ToString();
+        if (pickerDescricao != null)
+        {
+            var descricaoSelecionada = pickerDescricao.SelectedItem?.ToString();
+            _itemSolicitacao.DescricaoItem = descricaoSelecionada;
+        }
 
-        //}
+        var pickerUnidadeMedida = gridItensSolicitacao.Children
+            .OfType<Picker>()
+            .FirstOrDefault(c => Grid.GetRow(c) == indexLinha && Grid.GetColumn(c) == 2);
 
-        //_itemSolicitacao.IdItem = pickerDescricao.SelectedIndex;
-//        _itemSolicitacao.UnidadeMedida = pickerUnidadeMedida.SelectedIndex;
-        _itemSolicitacao.Quantidade = decimal.Parse(((Entry)gridItensSolicitacao.Children[indexLinha]).Text);
-        _itemSolicitacao.ValorUnitario = decimal.Parse(((Entry)gridItensSolicitacao.Children[indexLinha]).Text);
+        if (pickerUnidadeMedida != null)
+        {
+            _itemSolicitacao.UnidadeMedida = pickerUnidadeMedida.SelectedItem?.ToString();
+        }
+
+        var entryQuantidade = gridItensSolicitacao.Children
+            .OfType<Entry>()
+            .FirstOrDefault(c => Grid.GetRow(c) == indexLinha && Grid.GetColumn(c) == 3);
+
+        if (entryQuantidade != null && decimal.TryParse(entryQuantidade.Text, out var quantidade))
+        {
+            _itemSolicitacao.Quantidade = quantidade;
+        }
+
+        var entryValorUnitario = gridItensSolicitacao.Children
+            .OfType<Entry>()
+            .FirstOrDefault(c => Grid.GetRow(c) == indexLinha && Grid.GetColumn(c) == 4);
+
+        if (entryValorUnitario != null && decimal.TryParse(entryValorUnitario.Text, out var valorUnitario))
+        {
+            _itemSolicitacao.ValorUnitario = valorUnitario;
+        }
+
         _itemSolicitacao.ValorTotal = _itemSolicitacao.Quantidade * _itemSolicitacao.ValorUnitario;
 
         _con.Insert(_itemSolicitacao);
