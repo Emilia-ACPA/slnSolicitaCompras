@@ -31,39 +31,52 @@ namespace prjSolicitaCompras
         [Ignore]
         public List<ItemSolicitacao> ItensSolicitacao { get; set; } = new List<ItemSolicitacao>();
 
-        public Solicitacao() {
+        public Solicitacao()
+        {
         }
 
-        //public void CarregarItensSolicitacao(SQLiteConnection con)
-        //{
+        public void CarregarExternos(SQLiteConnection con)
+        {
+            //Nome do solicitante
+            var solicitanteUsuario = con.Table<Usuario>().FirstOrDefault(u => u.Id == IdSolicitante);
+            if (solicitanteUsuario != null)
+            {
+                NomeSolicitante = solicitanteUsuario.NomeUsuario;
+            }
 
-        //    ItensSolicitacao = con.Table<ItemSolicitacao>().Where(i => i.IdSolicitacao == Id).ToList();
+            //Nível de urgência
+            var StrNiveisUrgencia = new Dictionary<int, string>
+            {
+                { 1, "Baixa" },
+                { 2, "Médio" },
+                { 3, "Alta" }
+            };
+            if (StrNiveisUrgencia.TryGetValue(NivelUrgencia, out var strNivelUrgencia))
+            {
+                StrNivelUrgencia = strNivelUrgencia;
+            }
+        }
 
-        //    foreach (var item in ItensSolicitacao)
-        //    {
-        //        var unidadeMedida = con.Table<UnidadeMedida>().FirstOrDefault(u => u.Id == item.IdUnidadeMedida);
-        //        if (unidadeMedida != null)
-        //        {
-        //            item.UnidadeMedida = unidadeMedida.Descricao;
-        //        }
-        //    }
-        //}
+        public void CarregarItens(SQLiteConnection con)
+        {
+            //Carregar Itens
+            ItensSolicitacao = con.Table<ItemSolicitacao>().Where(i => i.IdSolicitacao == Id).ToList();
+            foreach (var item in ItensSolicitacao)
+            {
+                // Descrição do item
+                var DescricaoItem = con.Table<Item>().FirstOrDefault(i => i.Id == item.IdItem);
+                if (DescricaoItem != null)
+                {
+                    item.DescricaoItem = DescricaoItem.Descricao;
+                }
 
-
-        //CHAMADA PARA CARREGAMENTO DE ITENS a ser utilizada a qualquer manipulação de instância de Solicitacao no projeto
-        //var solicitacao = connection.Find<Solicitacao>(idSolicitacao);
-        //if (solicitacao != null)
-        //{
-        //    solicitacao.CarregarItens(connection);
-
-        //    // Exemplo: Iterar sobre os itens carregados
-        //    foreach (var item in solicitacao.Itens)
-        //    {
-        //        Console.WriteLine($"Item: {item.DescricaoItem}, Quantidade: {item.Quantidade}");
-        //    }
+                // Unidade de medida
+                var unidadeMedida = con.Table<UnidadeMedida>().FirstOrDefault(u => u.Id == item.IdUnidadeMedida);
+                if (unidadeMedida != null)
+                {
+                    item.UnidadeMedida = unidadeMedida.Descricao;
+                }
+            }
+        }
     }
-
-
-
-
 }

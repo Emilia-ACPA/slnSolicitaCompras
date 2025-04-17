@@ -14,25 +14,25 @@ public partial class NovaSolicitacao : ContentPage
     {
         InitializeComponent();
 
-        _con = con;
-        _solicitacao = solicitacao;
-        con.CreateTable<ItemSolicitacao>();
+        //_con = con;
+        //_solicitacao = solicitacao;
+        //con.CreateTable<ItemSolicitacao>();
 
         try
         {
-            LoadUsuarios();
+//            LoadUsuarios();
 
-            if (_solicitacao.Id == 0)
+            if (solicitacao.Id == 0)
             {
-                AddNovaSolicitacao(_solicitacao);
-                CarregarCabecalhoItens();
-                NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
+                //AddNovaSolicitacao(_solicitacao);
+                //CarregarCabecalhoItens();
+                //NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
             }
             else
             {
-                LoadSolicitacao(_solicitacao);
-                CarregarItensSolicitacao(_solicitacao.Id);
-                NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
+                CarregarSolicitacao(solicitacao);
+                //CarregarItensSolicitacao(_solicitacao.Id);
+                //NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
             }
         }
         catch (SQLiteException e)
@@ -56,27 +56,27 @@ public partial class NovaSolicitacao : ContentPage
         Grid.SetColumn(edCodigo, 0);
         this.gridItensSolicitacao.Children.Add(edCodigo);
 
-        // Descrição
-        var edDescricao = new Picker
-        {
-            MaximumWidthRequest = 800,
-            ItemsSource = _con.Table<Item>().Select(i => i.Descricao).ToList(),
-            SelectedItem = itens[linhaAtual],
-        };
-        Grid.SetRow(edDescricao, linhaAtual);
-        Grid.SetColumn(edDescricao, 1);
-        gridItensSolicitacao.Children.Add(edDescricao);
+        //// Descrição
+        //var edDescricao = new Picker
+        //{
+        //    MaximumWidthRequest = 800,
+        //    ItemsSource = _con.Table<Item>().Select(i => i.Descricao).ToList(),
+        //    SelectedItem = itens[linhaAtual],
+        //};
+        //Grid.SetRow(edDescricao, linhaAtual);
+        //Grid.SetColumn(edDescricao, 1);
+        //gridItensSolicitacao.Children.Add(edDescricao);
 
-        // Unidade de Medida
-        var edUnidadeMedida = new Picker
-        {
-            MaximumWidthRequest = 50,
-            ItemsSource = _con.Table<UnidadeMedida>().Select(i => i.Descricao).ToList(),
-            SelectedItem = itens[linhaAtual].UnidadeMedida,
-        };
-        Grid.SetRow(edUnidadeMedida, linhaAtual);
-        Grid.SetColumn(edUnidadeMedida, 1);
-        gridItensSolicitacao.Children.Add(edUnidadeMedida);
+        //// Unidade de Medida
+        //var edUnidadeMedida = new Picker
+        //{
+        //    MaximumWidthRequest = 50,
+        //    ItemsSource = _con.Table<UnidadeMedida>().Select(i => i.Descricao).ToList(),
+        //    SelectedItem = itens[linhaAtual].UnidadeMedida,
+        //};
+        //Grid.SetRow(edUnidadeMedida, linhaAtual);
+        //Grid.SetColumn(edUnidadeMedida, 1);
+        //gridItensSolicitacao.Children.Add(edUnidadeMedida);
 
         // Quantidade
         var edQuantidade = new Entry
@@ -124,9 +124,7 @@ public partial class NovaSolicitacao : ContentPage
         // Botão AddItem
         var btAddItem = new Button
         {
-//            FontAttributes = FontAttributes.Bold,
             HorizontalOptions = LayoutOptions.Center,
-//            IsVisible = true,
         };
         Grid.SetRow(btAddItem, linhaAtual);
         Grid.SetColumn(btAddItem, 5);
@@ -251,27 +249,28 @@ public partial class NovaSolicitacao : ContentPage
             gridItensSolicitacao.Children.Add(edCodigo);
 
             // Descrição
-            var edDescricao = new Picker
+            var itensSolicitacao = _con.Table<Item>().ToList();
+            var edDescricaoItem = new Picker
             {
-                Title = "Selecione o item",
-                ItemsSource = _con.Table<Item>().Select(i => i.Descricao).ToList(),
-                SelectedItem = item.DescricaoItem,
+                ItemsSource = itensSolicitacao,
+                ItemDisplayBinding = new Binding("Descricao"),
+                SelectedIndex = itensSolicitacao.IndexOf(itensSolicitacao.FirstOrDefault(i => i.Id == item.IdItem)),
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
-            edDescricao.SelectedIndexChanged += Picker_SelectedIndexChanged;
-            Grid.SetRow(edDescricao, i + 1);
-            Grid.SetColumn(edDescricao, 1);
-            gridItensSolicitacao.Children.Add(edDescricao);
+//            edDescricaoItem.SelectedIndexChanged += Picker_SelectedIndexChanged;
+            Grid.SetRow(edDescricaoItem, i + 1);
+            Grid.SetColumn(edDescricaoItem, 1);
+            gridItensSolicitacao.Children.Add(edDescricaoItem);
 
             // Unidade de Medida
+            var unidadesMedida = _con.Table<UnidadeMedida>().ToList();
             var edUnidadeMedida = new Picker
             {
-                Title = "Selecione a Unidade de Medida",
-                ItemsSource = _con.Table<UnidadeMedida>().Select(u => u.Descricao).ToList(),
-                SelectedItem = item.UnidadeMedida,
-                WidthRequest = 50,
-                HeightRequest = 50,
+                ItemsSource = unidadesMedida,
+                ItemDisplayBinding = new Binding("Descricao"),
+                SelectedItem = unidadesMedida.IndexOf(unidadesMedida.FirstOrDefault(i => i.Id == item.IdUnidadeMedida)),
             };
+//            edUnidadeMedida.SelectedIndexChanged += Picker_SelectedIndexChanged;
             Grid.SetRow(edUnidadeMedida, i + 1);
             Grid.SetColumn(edUnidadeMedida, 2);
             gridItensSolicitacao.Children.Add(edUnidadeMedida);
@@ -321,7 +320,32 @@ public partial class NovaSolicitacao : ContentPage
             Grid.SetRow(lbCalcValorTotal, i + 1);
             Grid.SetColumn(lbCalcValorTotal, 5);
             gridItensSolicitacao.Children.Add(lbCalcValorTotal);
+
+            // Botão Salvar ItemSolicitação
+            var btSalvarItemSolicitacao = new Button
+            {
+                ImageSource = "salvar.png",
+                HorizontalOptions = LayoutOptions.Center,
+                HeightRequest = 10,
+                WidthRequest = 10
+            };
+            Grid.SetRow(btSalvarItemSolicitacao, i + 1);
+            Grid.SetColumn(btSalvarItemSolicitacao, 6);
+            btSalvarItemSolicitacao.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                Command = new Command(() =>
+                {
+                    _con.Update(item);
+                })
+            });
+            gridItensSolicitacao.Children.Add(btSalvarItemSolicitacao);
+
         }
+    }
+
+    private void EdUnidadeMedida_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        throw new NotImplementedException();
     }
 
     private void Picker_SelectedIndexChanged(object? sender, EventArgs e)
@@ -397,49 +421,54 @@ public partial class NovaSolicitacao : ContentPage
 
     private async void BtnSalvar_Clicked(object sender, EventArgs e)
     {
-        _solicitacao.IdSolicitante = (int)EdUsuario.SelectedIndex + 1;
-        _solicitacao.DataSolicitacao = DateTime.ParseExact(DtSolicitacao.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        _solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedIndex + 1;
+        //var solicitanteSelecionado = EdUsuario.SelectedItem as Usuario;
+        //_solicitacao.IdSolicitante = solicitanteSelecionado?.Id ?? 0;
+        //_solicitacao.DataSolicitacao = DateTime.ParseExact(DtSolicitacao.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        //_solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedIndex + 1;
 
-        if (_solicitacao.IdSolicitante == 0 || _solicitacao.NivelUrgencia == 0 || _solicitacao.DataSolicitacao == DateTime.MinValue)
-        {
-            await DisplayAlert("Erro", "Favor preencher todos os campos e tente novamente.", "OK");
-            return;
-        }
+        //if (_solicitacao.IdSolicitante == 0 || _solicitacao.NivelUrgencia == 0 || _solicitacao.DataSolicitacao == DateTime.MinValue)
+        //{
+        //    await DisplayAlert("Erro", "Favor preencher todos os campos e tente novamente.", "OK");
+        //    return;
+        //}
 
-        var registroExistente = _con.Find<Solicitacao>(_solicitacao.Id);
-        if (registroExistente != null)
-        {
-            bool confirmacao = await DisplayAlert(
-                "Confirmação", "Qualquer alteração feita será registrada. Deseja salvar?",
-                "Sim", "Não"
-            );
+        //var registroExistente = _con.Find<Solicitacao>(_solicitacao.Id);
+        //if (registroExistente != null)
+        //{
+        //    bool confirmacao = await DisplayAlert(
+        //        "Confirmação", "Qualquer alteração feita será registrada. Deseja salvar?",
+        //        "Sim", "Não"
+        //    );
 
-            if (confirmacao) {
-                _con.Update(_solicitacao);
-                await DisplayAlert("Sucesso", "Solicitação salva com sucesso.", "OK");
-            }
-        }
-        else
-        {
-            _con.Insert(_solicitacao);
-            await DisplayAlert("Sucesso", "Nova solicitação inserida com sucesso.", "OK");
-            AddNovaSolicitacao(_solicitacao);
-        }
+        //    if (confirmacao) {
+        //        _con.Update(_solicitacao);
+        //        await DisplayAlert("Sucesso", "Solicitação salva com sucesso.", "OK");
+        //    }
+        //}
+        //else
+        //{
+        //    _con.Insert(_solicitacao);
+        //    await DisplayAlert("Sucesso", "Nova solicitação inserida com sucesso.", "OK");
+        //    AddNovaSolicitacao(_solicitacao);
+        //}
     }
 
   
     private void LoadUsuarios()
     {
         var usuarios = _con.Table<Usuario>().ToList();
-        EdUsuario.ItemsSource = usuarios.Select(u => u.NomeUsuario).ToList();
+        EdUsuario.ItemsSource = usuarios;
+        EdUsuario.ItemDisplayBinding = new Binding("NomeUsuario");
     }
 
-    private void LoadSolicitacao(Solicitacao solicitacao)
+    private void CarregarSolicitacao(Solicitacao solicitacao)
     {
+        //solicitacao.CarregarExternos(_con);
+        //solicitacao.CarregarItens(_con);
+
         EdUsuario.SelectedItem = solicitacao.NomeSolicitante;
         DtSolicitacao.Text = solicitacao.DataSolicitacao.ToString("dd/MM/yyyy");
-        NivelUrgenciaPicker.SelectedIndex = solicitacao.NivelUrgencia-1;
+        NivelUrgenciaPicker.SelectedItem = solicitacao.StrNivelUrgencia;
     }
 
     private void AddNovaSolicitacao(Solicitacao solicitacao)
@@ -451,21 +480,21 @@ public partial class NovaSolicitacao : ContentPage
 
     private async void BtnExcluir_Clicked(object sender, EventArgs e)
     {
-        bool confirmacao = await DisplayAlert(
-            "Confirmação", "Tem certeza de que deseja excluir esta solicitação?",
-            "Sim", "Não"
-        );
+        //bool confirmacao = await DisplayAlert(
+        //    "Confirmação", "Tem certeza de que deseja excluir esta solicitação?",
+        //    "Sim", "Não"
+        //);
 
-        var registroExistente = _con.Find<Solicitacao>(_solicitacao.Id);
-        if (registroExistente != null)
-        {
-            if (confirmacao)
-            {
-                _con.Delete(_solicitacao);
-                await DisplayAlert("Sucesso", "Solicitação excluída com sucesso.", "OK");
-                await Navigation.PopAsync();
-            }
-        }
+        //var registroExistente = _con.Find<Solicitacao>(_solicitacao.Id);
+        //if (registroExistente != null)
+        //{
+        //    if (confirmacao)
+        //    {
+        //        _con.Delete(_solicitacao);
+        //        await DisplayAlert("Sucesso", "Solicitação excluída com sucesso.", "OK");
+        //        await Navigation.PopAsync();
+        //    }
+        //}
     }
 
     private async void BtnVoltar_Clicked(object sender, EventArgs e)
@@ -482,7 +511,7 @@ public partial class NovaSolicitacao : ContentPage
 
         if (confirmacao)
         {
-            LoadSolicitacao(_solicitacao);
+            CarregarSolicitacao(_solicitacao);
             CarregarItensSolicitacao(_solicitacao.Id);
             NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
         }

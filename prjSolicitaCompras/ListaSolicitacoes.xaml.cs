@@ -15,31 +15,13 @@ public partial class ListaSolicitacoes : ContentPage
         _con = con;
     }
 
-    private void LoadSolicitacoes()
+    private void CarregaListaSolicitacoes()
     {
         var solicitacoes = _con.Table<Solicitacao>().ToList();
-
-        var usuarios = _con.Table<Usuario>().ToDictionary(u => u.Id, u => u.NomeUsuario);
         foreach (var solicitacao in solicitacoes)
         {
-            if (usuarios.TryGetValue(solicitacao.IdSolicitante, out var nomeUsuario))
-            {
-                solicitacao.NomeSolicitante = nomeUsuario;
-            }
-        }
-
-        var StrNiveisUrgencia = new Dictionary<int, string>
-        {
-            { 1, "Baixa" },
-            { 2, "Médio" },
-            { 3, "Alta" }
-        };
-        foreach (var solicitacao in solicitacoes)
-        {
-            if (StrNiveisUrgencia.TryGetValue(solicitacao.NivelUrgencia, out var strNivelUrgencia))
-            {
-                solicitacao.StrNivelUrgencia = strNivelUrgencia;
-            }
+            solicitacao.CarregarExternos(_con);
+            solicitacao.CarregarItens(_con);
         }
 
         SolicitacoesListView.ItemsSource = solicitacoes;
@@ -49,7 +31,6 @@ public partial class ListaSolicitacoes : ContentPage
     {
         var label = (Label)sender;
         var solicitacao = (Solicitacao)label.BindingContext;
-
         var solicitacaoPage = new NovaSolicitacao(_con, solicitacao);
 
         await Navigation.PushAsync(solicitacaoPage);
@@ -58,6 +39,6 @@ public partial class ListaSolicitacoes : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        LoadSolicitacoes();
+        CarregaListaSolicitacoes();
     }
 }
