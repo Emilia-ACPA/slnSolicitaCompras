@@ -14,13 +14,11 @@ public partial class NovaSolicitacao : ContentPage
     {
         InitializeComponent();
 
-        //_con = con;
-        //_solicitacao = solicitacao;
-        //con.CreateTable<ItemSolicitacao>();
+        _con = con;
 
         try
         {
-//            LoadUsuarios();
+            CarregarUsuarios();
 
             if (solicitacao.Id == 0)
             {
@@ -31,8 +29,8 @@ public partial class NovaSolicitacao : ContentPage
             else
             {
                 CarregarSolicitacao(solicitacao);
-                //CarregarItensSolicitacao(_solicitacao.Id);
-                //NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
+                CarregarItensSolicitacao(solicitacao);
+                NovoItemSolicitacao(solicitacao.ItensSolicitacao);
             }
         }
         catch (SQLiteException e)
@@ -56,27 +54,26 @@ public partial class NovaSolicitacao : ContentPage
         Grid.SetColumn(edCodigo, 0);
         this.gridItensSolicitacao.Children.Add(edCodigo);
 
-        //// Descrição
-        //var edDescricao = new Picker
-        //{
-        //    MaximumWidthRequest = 800,
-        //    ItemsSource = _con.Table<Item>().Select(i => i.Descricao).ToList(),
-        //    SelectedItem = itens[linhaAtual],
-        //};
-        //Grid.SetRow(edDescricao, linhaAtual);
-        //Grid.SetColumn(edDescricao, 1);
-        //gridItensSolicitacao.Children.Add(edDescricao);
+        // Descrição
+        var edDescricao = new Picker
+        {
+            MaximumWidthRequest = 800,
+            ItemsSource = _con.Table<Item>().Select(i => i.Descricao).ToList(),
 
-        //// Unidade de Medida
-        //var edUnidadeMedida = new Picker
-        //{
-        //    MaximumWidthRequest = 50,
-        //    ItemsSource = _con.Table<UnidadeMedida>().Select(i => i.Descricao).ToList(),
-        //    SelectedItem = itens[linhaAtual].UnidadeMedida,
-        //};
-        //Grid.SetRow(edUnidadeMedida, linhaAtual);
-        //Grid.SetColumn(edUnidadeMedida, 1);
-        //gridItensSolicitacao.Children.Add(edUnidadeMedida);
+        };
+        Grid.SetRow(edDescricao, linhaAtual);
+        Grid.SetColumn(edDescricao, 1);
+        this.gridItensSolicitacao.Children.Add(edDescricao);
+
+        // Unidade de Medida
+        var edUnidadeMedida = new Picker
+        {
+            MaximumWidthRequest = 50,
+            ItemsSource = _con.Table<UnidadeMedida>().Select(i => i.Descricao).ToList(),
+        };
+        Grid.SetRow(edUnidadeMedida, linhaAtual);
+        Grid.SetColumn(edUnidadeMedida, 2);
+        this.gridItensSolicitacao.Children.Add(edUnidadeMedida);
 
         // Quantidade
         var edQuantidade = new Entry
@@ -84,22 +81,23 @@ public partial class NovaSolicitacao : ContentPage
             Keyboard = Keyboard.Numeric,
             MaximumWidthRequest = 150
         };
-        //edQuantidade.TextChanged += (sender, e) =>
-        //{
-        //    if (decimal.TryParse(e.NewTextValue, out var quantidade))
-        //    {
-        //        MaximumWidthRequest = 150;
-        //    }
-        //};
+        edQuantidade.TextChanged += (sender, e) =>
+        {
+            //if (decimal.TryParse(e.NewTextValue, out var quantidade))
+            //{
+            //    MaximumWidthRequest = 150;
+            //}
+        };
         Grid.SetRow(edQuantidade, linhaAtual);
-        Grid.SetColumn(edQuantidade, 2);
-        gridItensSolicitacao.Children.Add(edQuantidade);
+        Grid.SetColumn(edQuantidade, 3);
+        this.gridItensSolicitacao.Children.Add(edQuantidade);
 
         // Valor Unitário
         var edValorUnitario = new Entry
         {
 //            Text = itens[linhaAtual].ValorUnitario.ToString("F2"),
             Keyboard = Keyboard.Numeric,
+            MaximumWidthRequest = 150
         };
         //edValorUnitario.TextChanged += (sender, e) =>
         //{
@@ -109,25 +107,28 @@ public partial class NovaSolicitacao : ContentPage
         //    }
         //};
         Grid.SetRow(edValorUnitario, linhaAtual);
-        Grid.SetColumn(edValorUnitario, 3);
-        gridItensSolicitacao.Children.Add(edValorUnitario);
+        Grid.SetColumn(edValorUnitario, 4);
+        this.gridItensSolicitacao.Children.Add(edValorUnitario);
 
         // Valor Total
         var lbCalcValorTotal = new Label
         {
-//            Text = itens[linhaAtual].ValorTotal.ToString("F2"),
+            //            Text = itens[linhaAtual].ValorTotal.ToString("F2"),
+            MaximumWidthRequest = 150
+
         };
         Grid.SetRow(lbCalcValorTotal, linhaAtual);
-        Grid.SetColumn(lbCalcValorTotal, 4);
-        gridItensSolicitacao.Children.Add(lbCalcValorTotal);
+        Grid.SetColumn(lbCalcValorTotal, 5);
+        this.gridItensSolicitacao.Children.Add(lbCalcValorTotal);
 
         // Botão AddItem
         var btAddItem = new Button
         {
             HorizontalOptions = LayoutOptions.Center,
+            MaximumWidthRequest = 50
         };
         Grid.SetRow(btAddItem, linhaAtual);
-        Grid.SetColumn(btAddItem, 5);
+        Grid.SetColumn(btAddItem, 6);
         btAddItem.HeightRequest = 50;
         btAddItem.WidthRequest = 50;
         btAddItem.ImageSource = "adicionaritem.png";
@@ -138,7 +139,7 @@ public partial class NovaSolicitacao : ContentPage
                 AdicionarItemSolicitacao(linhaAtual);
             })
         });
-        gridItensSolicitacao.Children.Add(btAddItem);
+        this.gridItensSolicitacao.Children.Add(btAddItem);
     }
 
     private void CarregarCabecalhoItens()
@@ -175,7 +176,7 @@ public partial class NovaSolicitacao : ContentPage
             MinimumWidthRequest = 50
         };
         Grid.SetRow(lbUnidadeMedida, 0);
-        Grid.SetColumn(lbUnidadeMedida, 1);
+        Grid.SetColumn(lbUnidadeMedida, 2);
         this.gridItensSolicitacao.Children.Add(lbUnidadeMedida);
 
         var lbQuantidade = new Label
@@ -185,7 +186,7 @@ public partial class NovaSolicitacao : ContentPage
             MinimumWidthRequest = 150
         };
         Grid.SetRow(lbQuantidade, 0);
-        Grid.SetColumn(lbQuantidade, 2);
+        Grid.SetColumn(lbQuantidade, 3);
         this.gridItensSolicitacao.Children.Add(lbQuantidade);
 
         var lbValorUnitario = new Label
@@ -195,7 +196,7 @@ public partial class NovaSolicitacao : ContentPage
             MinimumWidthRequest = 150
         };
         Grid.SetRow(lbValorUnitario, 0);
-        Grid.SetColumn(lbValorUnitario, 3);
+        Grid.SetColumn(lbValorUnitario, 4);
         this.gridItensSolicitacao.Children.Add(lbValorUnitario);
 
         var lbValorTotal = new Label
@@ -205,7 +206,7 @@ public partial class NovaSolicitacao : ContentPage
             MinimumWidthRequest = 150
         };
         Grid.SetRow(lbValorTotal, 0);
-        Grid.SetColumn(lbValorTotal, 4);
+        Grid.SetColumn(lbValorTotal, 5);
         this.gridItensSolicitacao.Children.Add(lbValorTotal);
 
         var lbAddItem = new Label
@@ -214,17 +215,13 @@ public partial class NovaSolicitacao : ContentPage
             MinimumWidthRequest = 50
         };
         Grid.SetRow(lbAddItem, 0);
-        Grid.SetColumn(lbAddItem, 5);
+        Grid.SetColumn(lbAddItem, 6);
         this.gridItensSolicitacao.Children.Add(lbAddItem);
     }
 
-    private void CarregarItensSolicitacao(int _idSolicitacao)
+    private void CarregarItensSolicitacao(Solicitacao solicitacao)
     {
-        List<ItemSolicitacao> itens = _con.Table<ItemSolicitacao>()
-            .Where(i => i.IdSolicitacao == _idSolicitacao)
-            .ToList();
-
-        _solicitacao.ItensSolicitacao = itens;
+        List<ItemSolicitacao> itens = solicitacao.ItensSolicitacao;
 
         // Limpa e carrega cabeçalho
         CarregarCabecalhoItens();
@@ -268,7 +265,7 @@ public partial class NovaSolicitacao : ContentPage
             {
                 ItemsSource = unidadesMedida,
                 ItemDisplayBinding = new Binding("Descricao"),
-                SelectedItem = unidadesMedida.IndexOf(unidadesMedida.FirstOrDefault(i => i.Id == item.IdUnidadeMedida)),
+                SelectedIndex = unidadesMedida.IndexOf(unidadesMedida.FirstOrDefault(i => i.Id == item.IdUnidadeMedida)),
             };
 //            edUnidadeMedida.SelectedIndexChanged += Picker_SelectedIndexChanged;
             Grid.SetRow(edUnidadeMedida, i + 1);
@@ -424,7 +421,7 @@ public partial class NovaSolicitacao : ContentPage
         //var solicitanteSelecionado = EdUsuario.SelectedItem as Usuario;
         //_solicitacao.IdSolicitante = solicitanteSelecionado?.Id ?? 0;
         //_solicitacao.DataSolicitacao = DateTime.ParseExact(DtSolicitacao.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        //_solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedIndex + 1;
+        //_solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedIndex+1;
 
         //if (_solicitacao.IdSolicitante == 0 || _solicitacao.NivelUrgencia == 0 || _solicitacao.DataSolicitacao == DateTime.MinValue)
         //{
@@ -452,9 +449,8 @@ public partial class NovaSolicitacao : ContentPage
         //    AddNovaSolicitacao(_solicitacao);
         //}
     }
-
   
-    private void LoadUsuarios()
+    private void CarregarUsuarios()
     {
         var usuarios = _con.Table<Usuario>().ToList();
         EdUsuario.ItemsSource = usuarios;
@@ -463,12 +459,21 @@ public partial class NovaSolicitacao : ContentPage
 
     private void CarregarSolicitacao(Solicitacao solicitacao)
     {
-        //solicitacao.CarregarExternos(_con);
-        //solicitacao.CarregarItens(_con);
+        if (EdUsuario.ItemsSource is List<Usuario> usuarios)
+        {
+            int index = usuarios.FindIndex(u => u.Id == solicitacao.IdSolicitante);
+            if (index >= 0 && index < EdUsuario.ItemsSource.Count)
+            {
+                EdUsuario.SelectedIndex = index;
+            }
+            else
+            {
+                EdUsuario.SelectedIndex = -1;
+            }
+        }
 
-        EdUsuario.SelectedItem = solicitacao.NomeSolicitante;
         DtSolicitacao.Text = solicitacao.DataSolicitacao.ToString("dd/MM/yyyy");
-        NivelUrgenciaPicker.SelectedItem = solicitacao.StrNivelUrgencia;
+        NivelUrgenciaPicker.SelectedIndex = solicitacao.NivelUrgencia-1;
     }
 
     private void AddNovaSolicitacao(Solicitacao solicitacao)
@@ -512,7 +517,7 @@ public partial class NovaSolicitacao : ContentPage
         if (confirmacao)
         {
             CarregarSolicitacao(_solicitacao);
-            CarregarItensSolicitacao(_solicitacao.Id);
+            CarregarItensSolicitacao(_solicitacao);
             NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
         }
     }

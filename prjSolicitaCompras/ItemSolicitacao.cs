@@ -31,6 +31,6 @@ namespace prjSolicitaCompras
         [Ignore]
         public string UnidadeMedida { get; set; } = string.Empty;
 
-        public ItemSolicitacao() { }
+        public ItemSolicitacao() {}
     }
 }
