@@ -23,9 +23,9 @@ public partial class NovaSolicitacao : ContentPage
 
             if (solicitacao.Id == 0)
             {
-                //AddNovaSolicitacao(_solicitacao);
-                //CarregarCabecalhoItens();
-                //NovoItemSolicitacao(_solicitacao.ItensSolicitacao);
+                AddNovaSolicitacao(solicitacao);
+                CarregarCabecalhoItens();
+                NovoItemSolicitacao(solicitacao.Id);
             }
             else
             {
@@ -468,6 +468,12 @@ public partial class NovaSolicitacao : ContentPage
 
     private void AdicionarItemSolicitacao(int solicitacaoId, int indexLinha)
     {
+        if (solicitacaoId == 0)
+        {
+            DisplayAlert("Alerta", "Favor salvar a solicitação primeiro, para depois adicionar itens a ela.", "Ok");
+            return;
+        }
+
         ItemSolicitacao _itemSolicitacao = new ItemSolicitacao();
 
         _itemSolicitacao.IdSolicitacao = solicitacaoId;
@@ -612,36 +618,36 @@ public partial class NovaSolicitacao : ContentPage
 
     private async void BtnSalvar_Clicked(object sender, EventArgs e)
     {
-        //var solicitanteSelecionado = EdUsuario.SelectedItem as Usuario;
-        //_solicitacao.IdSolicitante = solicitanteSelecionado?.Id ?? 0;
-        //_solicitacao.DataSolicitacao = DateTime.ParseExact(DtSolicitacao.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        //_solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedIndex+1;
+        var solicitanteSelecionado = EdUsuario.SelectedItem as Usuario;
+        _solicitacao.IdSolicitante = solicitanteSelecionado?.Id ?? 0;
+        _solicitacao.DataSolicitacao = DateTime.ParseExact(DtSolicitacao.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        _solicitacao.NivelUrgencia = (int)NivelUrgenciaPicker.SelectedIndex + 1;
 
-        //if (_solicitacao.IdSolicitante == 0 || _solicitacao.NivelUrgencia == 0 || _solicitacao.DataSolicitacao == DateTime.MinValue)
-        //{
-        //    await DisplayAlert("Erro", "Favor preencher todos os campos e tente novamente.", "OK");
-        //    return;
-        //}
+        if (_solicitacao.IdSolicitante == 0 || _solicitacao.NivelUrgencia == 0 || _solicitacao.DataSolicitacao == DateTime.MinValue)
+        {
+            await DisplayAlert("Erro", "Favor preencher todos os campos e tente novamente.", "OK");
+            return;
+        }
 
-        //var registroExistente = _con.Find<Solicitacao>(_solicitacao.Id);
-        //if (registroExistente != null)
-        //{
-        //    bool confirmacao = await DisplayAlert(
-        //        "Confirmação", "Qualquer alteração feita será registrada. Deseja salvar?",
-        //        "Sim", "Não"
-        //    );
+        if (_solicitacao.Id != 0)
+        {
+            bool confirmacao = await DisplayAlert(
+                "Confirmação", "Qualquer alteração feita será registrada. Deseja salvar?",
+                "Sim", "Não"
+            );
 
-        //    if (confirmacao) {
-        //        _con.Update(_solicitacao);
-        //        await DisplayAlert("Sucesso", "Solicitação salva com sucesso.", "OK");
-        //    }
-        //}
-        //else
-        //{
-        //    _con.Insert(_solicitacao);
-        //    await DisplayAlert("Sucesso", "Nova solicitação inserida com sucesso.", "OK");
-        //    AddNovaSolicitacao(_solicitacao);
-        //}
+            if (confirmacao)
+            {
+                _con.Update(_solicitacao);
+                await DisplayAlert("Sucesso", "Solicitação salva com sucesso.", "OK");
+            }
+        }
+        else
+        {
+            _con.Insert(_solicitacao);
+            await DisplayAlert("Sucesso", "Nova solicitação inserida com sucesso.", "OK");
+            AddNovaSolicitacao(_solicitacao);
+        }
     }
   
     private void CarregarUsuarios()
@@ -675,6 +681,9 @@ public partial class NovaSolicitacao : ContentPage
         EdUsuario.SelectedIndex = -1;
         NivelUrgenciaPicker.SelectedIndex = -1;
         DtSolicitacao.Text = DateTime.Now.ToString("dd/MM/yyyy");
+    
+        CarregarItensSolicitacao(solicitacao.Id);
+        NovoItemSolicitacao(solicitacao.Id);
     }
 
     private async void BtnExcluir_Clicked(object sender, EventArgs e)

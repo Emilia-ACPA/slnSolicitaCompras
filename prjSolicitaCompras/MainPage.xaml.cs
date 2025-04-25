@@ -24,13 +24,14 @@ namespace prjSolicitaCompras
 
         private async void BtnNovaSolicitacao_Clicked(object sender, EventArgs e)
         {
-            //try {
-            //    await Navigation.PushAsync(new NovaSolicitacao(con, new Solicitacao(con, true)));
-            //}
-            //catch (Exception ex)
-            //{
-            //    await DisplayAlert("Erro", "Erro ao carregar os dados" + ex.Message, "OK");
-            //}
+            try
+            {
+                await Navigation.PushAsync(new NovaSolicitacao(con, new Solicitacao()));
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro", "Erro ao carregar os dados" + ex.Message, "OK");
+            }
         }
 
         private async void BtnListaSolicitacoes_Clicked(object sender, EventArgs e)

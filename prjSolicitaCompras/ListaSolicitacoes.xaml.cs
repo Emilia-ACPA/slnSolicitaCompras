@@ -18,6 +18,7 @@ public partial class ListaSolicitacoes : ContentPage
     private void CarregaListaSolicitacoes()
     {
         var solicitacoes = _con.Table<Solicitacao>().ToList();
+
         foreach (var solicitacao in solicitacoes)
         {
             solicitacao.CarregarExternos(_con);
