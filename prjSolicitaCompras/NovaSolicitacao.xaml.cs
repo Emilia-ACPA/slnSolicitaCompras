@@ -17,7 +17,6 @@ public partial class NovaSolicitacao : ContentPage
         InitializeComponent();
 
         _con = con;
-
         try
         {
             CarregarUsuarios();
@@ -31,30 +30,31 @@ public partial class NovaSolicitacao : ContentPage
             else
             {
                 CarregarSolicitacao(solicitacao);
-                CarregarItensSolicitacao(solicitacao);
-                NovoItemSolicitacao(solicitacao);
+                CarregarItensSolicitacao(solicitacao.Id);
+                NovoItemSolicitacao(solicitacao.Id);
             }
+            _solicitacao = solicitacao;
+
         }
         catch (SQLiteException e)
         {
             DisplayAlert("Erro", "Erro ao carregar os dados: " + e.Message, "OK");
         }
     }
-
-    private void NovoItemSolicitacao(Solicitacao solicitacao)
+    private void NovoItemSolicitacao(int solicitacaoId)
     {
-        List<ItemSolicitacao> itens = solicitacao.ItensSolicitacao;
+        List<ItemSolicitacao> itens = _con.Table<ItemSolicitacao>().Where(i => i.IdSolicitacao == solicitacaoId).ToList();
 
         gridItensSolicitacao.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-        int linhaAtual = itens.Count+1;
+        int linhaAtualGrid = itens.Count+1;
 
         // Código
         var edCodigo = new Entry
         {
             MaximumWidthRequest = 80
         };
-        Grid.SetRow(edCodigo, linhaAtual );
+        Grid.SetRow(edCodigo, linhaAtualGrid);
         Grid.SetColumn(edCodigo, 0);
         this.gridItensSolicitacao.Children.Add(edCodigo);
 
@@ -65,7 +65,7 @@ public partial class NovaSolicitacao : ContentPage
             ItemsSource = _con.Table<Item>().Select(i => i.Descricao).ToList(),
 
         };
-        Grid.SetRow(edDescricao, linhaAtual);
+        Grid.SetRow(edDescricao, linhaAtualGrid);
         Grid.SetColumn(edDescricao, 1);
         this.gridItensSolicitacao.Children.Add(edDescricao);
 
@@ -75,7 +75,7 @@ public partial class NovaSolicitacao : ContentPage
             MaximumWidthRequest = 100,
             ItemsSource = _con.Table<UnidadeMedida>().Select(i => i.Descricao).ToList(),
         };
-        Grid.SetRow(edUnidadeMedida, linhaAtual);
+        Grid.SetRow(edUnidadeMedida, linhaAtualGrid);
         Grid.SetColumn(edUnidadeMedida, 2);
         this.gridItensSolicitacao.Children.Add(edUnidadeMedida);
 
@@ -100,7 +100,7 @@ public partial class NovaSolicitacao : ContentPage
                 DisplayAlert("Erro", "Valor inválido", "OK");
             }
         };
-        Grid.SetRow(edQuantidade, linhaAtual);
+        Grid.SetRow(edQuantidade, linhaAtualGrid);
         Grid.SetColumn(edQuantidade, 3);
         this.gridItensSolicitacao.Children.Add(edQuantidade);
 
@@ -130,7 +130,7 @@ public partial class NovaSolicitacao : ContentPage
                     var quantidade = decimal.Parse(edQuantidade.Text);
                     var valorTotal = valorUnitario * quantidade;
                     var lbCalcValorTotal = gridItensSolicitacao.Children.OfType<Label>()
-                        .FirstOrDefault(c => Grid.GetRow(c) == linhaAtual && Grid.GetColumn(c) == 5);
+                        .FirstOrDefault(c => Grid.GetRow(c) == linhaAtualGrid && Grid.GetColumn(c) == 5);
                     if (lbCalcValorTotal.Text != null)
                     {
                         lbCalcValorTotal.Text = valorTotal.ToString("F2", CultureInfo.CurrentCulture);
@@ -138,7 +138,7 @@ public partial class NovaSolicitacao : ContentPage
                 }
             }
         };
-        Grid.SetRow(edValorUnitario, linhaAtual);
+        Grid.SetRow(edValorUnitario, linhaAtualGrid);
         Grid.SetColumn(edValorUnitario, 4);
         this.gridItensSolicitacao.Children.Add(edValorUnitario);
 
@@ -148,7 +148,7 @@ public partial class NovaSolicitacao : ContentPage
             MaximumWidthRequest = 100
 
         };
-        Grid.SetRow(lbCalcValorTotal, linhaAtual);
+        Grid.SetRow(lbCalcValorTotal, linhaAtualGrid);
         Grid.SetColumn(lbCalcValorTotal, 5);
         this.gridItensSolicitacao.Children.Add(lbCalcValorTotal);
 
@@ -158,7 +158,7 @@ public partial class NovaSolicitacao : ContentPage
             HorizontalOptions = LayoutOptions.Center,
             MaximumWidthRequest = 50
         };
-        Grid.SetRow(btAddItem, linhaAtual);
+        Grid.SetRow(btAddItem, linhaAtualGrid);
         Grid.SetColumn(btAddItem, 6);
         btAddItem.HeightRequest = 50;
         btAddItem.WidthRequest = 50;
@@ -167,7 +167,7 @@ public partial class NovaSolicitacao : ContentPage
         {
             Command = new Command(() =>
             {
-                AdicionarItemSolicitacao(solicitacao.Id, linhaAtual);
+                AdicionarItemSolicitacao(_solicitacao.Id, linhaAtualGrid);
             })
         });
         this.gridItensSolicitacao.Children.Add(btAddItem);
@@ -250,17 +250,18 @@ public partial class NovaSolicitacao : ContentPage
         this.gridItensSolicitacao.Children.Add(lbAddItem);
     }
 
-    private void CarregarItensSolicitacao(Solicitacao solicitacao)
+    private void CarregarItensSolicitacao(int solicitacaoId)
     {
-        List<ItemSolicitacao> itens = solicitacao.ItensSolicitacao;
+        List < ItemSolicitacao > itens = _con.Table<ItemSolicitacao>().Where(i => i.IdSolicitacao == solicitacaoId).ToList();
 
         // Limpa e carrega cabeçalho
         CarregarCabecalhoItens();
 
         // Itens da Solicitação
-        for (int linhaAtual = 0; linhaAtual < itens.Count; linhaAtual++)
+        for (int i = 0; i < itens.Count; i++)
         {
-            var item = itens[linhaAtual];
+            var item = itens[i];
+            var linhaAtualGrid = i+1;   //Iniciando de 1, porque linha 0 é o cabeçalho do grid
 
             // Adicionar uma nova linha para cada item
             gridItensSolicitacao.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -272,7 +273,7 @@ public partial class NovaSolicitacao : ContentPage
                 IsReadOnly = true,
                 HorizontalOptions = LayoutOptions.Center
             };
-            Grid.SetRow(edCodigo, linhaAtual + 1);
+            Grid.SetRow(edCodigo, linhaAtualGrid);
             Grid.SetColumn(edCodigo, 0);
             gridItensSolicitacao.Children.Add(edCodigo);
 
@@ -280,13 +281,11 @@ public partial class NovaSolicitacao : ContentPage
             var itensSolicitacao = _con.Table<Item>().ToList();
             var edDescricaoItem = new Picker
             {
-                ItemsSource = itensSolicitacao,
-                ItemDisplayBinding = new Binding("Descricao"),
+                ItemsSource = _con.Table<Item>().Select(i => i.Descricao).ToList(),
                 SelectedIndex = itensSolicitacao.IndexOf(itensSolicitacao.FirstOrDefault(i => i.Id == item.IdItem)),
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
-//            edDescricaoItem.SelectedIndexChanged += Picker_SelectedIndexChanged;
-            Grid.SetRow(edDescricaoItem, linhaAtual + 1);
+            Grid.SetRow(edDescricaoItem, linhaAtualGrid);
             Grid.SetColumn(edDescricaoItem, 1);
             gridItensSolicitacao.Children.Add(edDescricaoItem);
 
@@ -294,13 +293,11 @@ public partial class NovaSolicitacao : ContentPage
             var unidadesMedida = _con.Table<UnidadeMedida>().ToList();
             var edUnidadeMedida = new Picker
             {
-                ItemsSource = unidadesMedida,
-                ItemDisplayBinding = new Binding("Descricao"),
+                ItemsSource = _con.Table<UnidadeMedida>().Select(i => i.Descricao).ToList(),
                 MaximumWidthRequest = 100,
                 SelectedIndex = unidadesMedida.IndexOf(unidadesMedida.FirstOrDefault(i => i.Id == item.IdUnidadeMedida)),
             };
-//            edUnidadeMedida.SelectedIndexChanged += Picker_SelectedIndexChanged;
-            Grid.SetRow(edUnidadeMedida, linhaAtual + 1);
+            Grid.SetRow(edUnidadeMedida, linhaAtualGrid);
             Grid.SetColumn(edUnidadeMedida, 2);
             gridItensSolicitacao.Children.Add(edUnidadeMedida);
 
@@ -331,7 +328,7 @@ public partial class NovaSolicitacao : ContentPage
                     edQuantidade.Text = quantidade.ToString("#,###.###", new CultureInfo("pt-BR"));
                 }
             };
-            Grid.SetRow(edQuantidade, linhaAtual + 1);
+            Grid.SetRow(edQuantidade, linhaAtualGrid);
             Grid.SetColumn(edQuantidade, 3);
             gridItensSolicitacao.Children.Add(edQuantidade);
 
@@ -360,14 +357,14 @@ public partial class NovaSolicitacao : ContentPage
                     item.ValorUnitario = valorUnitario;
                     item.ValorTotal = item.Quantidade * item.ValorUnitario;
                     var lbCalcValorTotal = gridItensSolicitacao.Children.OfType<Label>()
-                        .FirstOrDefault(c => Grid.GetRow(c) == linhaAtual && Grid.GetColumn(c) == 5);
+                        .FirstOrDefault(c => Grid.GetRow(c) == linhaAtualGrid && Grid.GetColumn(c) == 5);
                     if (lbCalcValorTotal.Text != null)
                     {
                         lbCalcValorTotal.Text = item.ValorTotal.ToString("F2", CultureInfo.CurrentCulture);
                     }
                 }
             };
-            Grid.SetRow(edValorUnitario, linhaAtual + 1);
+            Grid.SetRow(edValorUnitario, linhaAtualGrid);
             Grid.SetColumn(edValorUnitario, 4);
             gridItensSolicitacao.Children.Add(edValorUnitario);
 
@@ -378,7 +375,7 @@ public partial class NovaSolicitacao : ContentPage
                 MaximumWidthRequest = 100,
                 HorizontalOptions = LayoutOptions.Center
             };
-            Grid.SetRow(lbCalcValorTotal, linhaAtual + 1);
+            Grid.SetRow(lbCalcValorTotal, linhaAtualGrid);
             Grid.SetColumn(lbCalcValorTotal, 5);
             gridItensSolicitacao.Children.Add(lbCalcValorTotal);
 
@@ -390,13 +387,13 @@ public partial class NovaSolicitacao : ContentPage
                 HeightRequest = 10,
                 WidthRequest = 10
             };
-            Grid.SetRow(btSalvarItemSolicitacao, linhaAtual + 1);
+            Grid.SetRow(btSalvarItemSolicitacao, linhaAtualGrid);
             Grid.SetColumn(btSalvarItemSolicitacao, 6);
             btSalvarItemSolicitacao.GestureRecognizers.Add(new TapGestureRecognizer
             {
                 Command = new Command(() =>
                 {
-                    SalvarItemSolicitacao(item, linhaAtual);
+                    SalvarItemSolicitacao(item, linhaAtualGrid);
                 })
             });
             gridItensSolicitacao.Children.Add(btSalvarItemSolicitacao);
@@ -474,6 +471,10 @@ public partial class NovaSolicitacao : ContentPage
             // Adiciona o item de solicitação no banco de dados
             _con.Insert(_itemSolicitacao);
             DisplayAlert("Sucesso", "Item atualizado com sucesso.", "OK");
+
+            // Posteriormente atualizar apenas o botão que não será mais de inserção, mas de salvar. To do.
+            CarregarItensSolicitacao(_solicitacao.Id);
+            NovoItemSolicitacao(_solicitacao.Id);
         }
         else
         {
@@ -626,21 +627,22 @@ public partial class NovaSolicitacao : ContentPage
 
     private async void BtnExcluir_Clicked(object sender, EventArgs e)
     {
-        //bool confirmacao = await DisplayAlert(
-        //    "Confirmação", "Tem certeza de que deseja excluir esta solicitação?",
-        //    "Sim", "Não"
-        //);
+        bool confirmacao = await DisplayAlert(
+            "Confirmação", "Tem certeza de que deseja excluir esta solicitação?",
+            "Sim", "Não"
+        );
 
-        //var registroExistente = _con.Find<Solicitacao>(_solicitacao.Id);
-        //if (registroExistente != null)
-        //{
-        //    if (confirmacao)
-        //    {
-        //        _con.Delete(_solicitacao);
-        //        await DisplayAlert("Sucesso", "Solicitação excluída com sucesso.", "OK");
-        //        await Navigation.PopAsync();
-        //    }
-        //}
+        var registroExistente = _solicitacao.Id;
+        if (registroExistente != null)
+        {
+            if (confirmacao)
+            {
+                _con.Execute("Delete from ItemSolicitacao where IdSolicitacao = ?", registroExistente);
+                _con.Delete(_solicitacao);
+                await DisplayAlert("Sucesso", "Solicitação excluída com sucesso.", "OK");
+                await Navigation.PopAsync();
+            }
+        }
     }
 
     private async void BtnVoltar_Clicked(object sender, EventArgs e)
@@ -658,8 +660,8 @@ public partial class NovaSolicitacao : ContentPage
         if (confirmacao)
         {
             CarregarSolicitacao(_solicitacao);
-            CarregarItensSolicitacao(_solicitacao);
-            NovoItemSolicitacao(_solicitacao);
+            CarregarItensSolicitacao(_solicitacao.Id);
+            NovoItemSolicitacao(_solicitacao.Id);
         }
     }
 }
