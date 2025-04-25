@@ -42,6 +42,7 @@
                             <ColumnDefinition Width="Auto" /> <!--//Valor Unitário-->
                             <ColumnDefinition Width="Auto" /> <!--//Valor Total-->
                             <ColumnDefinition Width="Auto" /> <!--//Botão Adicionar Item-->
+                            <ColumnDefinition Width="Auto" /> <!--//Botão Excluir Item-->
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </Border>

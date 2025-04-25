@@ -248,6 +248,15 @@ public partial class NovaSolicitacao : ContentPage
         Grid.SetRow(lbAddItem, 0);
         Grid.SetColumn(lbAddItem, 6);
         this.gridItensSolicitacao.Children.Add(lbAddItem);
+
+        var lbExcluirItem = new Label
+        {
+            FontAttributes = FontAttributes.Bold,
+            MinimumWidthRequest = 50
+        };
+        Grid.SetRow(lbExcluirItem, 0);
+        Grid.SetColumn(lbExcluirItem, 7);
+        this.gridItensSolicitacao.Children.Add(lbExcluirItem);
     }
 
     private void CarregarItensSolicitacao(int solicitacaoId)
@@ -397,6 +406,49 @@ public partial class NovaSolicitacao : ContentPage
                 })
             });
             gridItensSolicitacao.Children.Add(btSalvarItemSolicitacao);
+
+            // Botão Excluir ItemSolicitação
+            var btExcluirItemSolicitacao = new Button
+            {
+                ImageSource = "excluir.png",
+                HorizontalOptions = LayoutOptions.Center,
+                HeightRequest = 10,
+                WidthRequest = 10
+            };
+            Grid.SetRow(btExcluirItemSolicitacao, linhaAtualGrid);
+            Grid.SetColumn(btExcluirItemSolicitacao, 7);
+            btExcluirItemSolicitacao.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                Command = new Command(() =>
+                {
+                    ExcluirItemSolicitacao(item, linhaAtualGrid);
+                })
+            });
+            gridItensSolicitacao.Children.Add(btExcluirItemSolicitacao);
+        }
+    }
+
+    private async void ExcluirItemSolicitacao(ItemSolicitacao item, int linhaAtual)
+    {
+        bool confirmacao = await DisplayAlert(
+            "Confirmação", "Tem certeza de que deseja excluir o item selecionado?",
+            "Sim", "Não"
+        );
+
+        if (confirmacao)
+        {
+            _con.Delete(item);
+
+            var linhaAtualGrid = gridItensSolicitacao.Children
+                .Where(c => gridItensSolicitacao.GetRow(c) == linhaAtual)
+                .ToList();
+
+            foreach (var elemento in linhaAtualGrid)
+            {
+                gridItensSolicitacao.Children.Remove(elemento);
+            }
+
+            DisplayAlert("Sucesso", "Item excluído com sucesso.", "OK");
         }
     }
 
