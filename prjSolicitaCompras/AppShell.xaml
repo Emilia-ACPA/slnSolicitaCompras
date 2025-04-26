@@ -5,11 +5,32 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:prjSolicitaCompras"
     Shell.FlyoutBehavior="Flyout"
-    Title="prjSolicitaCompras">
+    Title="">
 
-    <ShellContent
-        Title="Solicitação de Compras"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <!-- Cabeçalho do Menu -->
+    <Shell.FlyoutHeader>
+        <Grid BackgroundColor="LightGray" Padding="10">
+            <Label Text="Solicitação de Compras" FontSize="Small" HorizontalOptions="Center" />
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <!-- Itens do Menu -->
+    <ShellContent Title="Tela Principal"
+                  ContentTemplate="{DataTemplate local:MainPage}"
+                  Route="MainPage" />
+
+    <ShellContent Title="Nova Solicitação"
+                  ContentTemplate="{DataTemplate local:NovaSolicitacao}"
+                  Route="NovaSolicitacao" />
+    <ShellContent Title="Lista de Solicitações"
+                  ContentTemplate="{DataTemplate local:ListaSolicitacoes}"
+                  Route="ListaSolicitacoes" />
+
+    <!-- Rodapé do Menu -->
+    <Shell.FlyoutFooter>
+        <Grid BackgroundColor="LightGray" Padding="10">
+            <Label Text="Versão 1.0" HorizontalOptions="Center" />
+        </Grid>
+    </Shell.FlyoutFooter>
 
 </Shell>

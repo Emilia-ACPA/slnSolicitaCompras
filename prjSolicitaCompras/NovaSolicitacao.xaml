@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:prjSolicitaCompras"
              x:Class="prjSolicitaCompras.NovaSolicitacao"
              Title="Solicitação de Compra">
+    
     <ScrollView>
         <VerticalStackLayout Margin="0,30,0,0">
             <Label Text="Usuário" Margin="10,10,10,0" />

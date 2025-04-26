@@ -725,4 +725,10 @@ public partial class NovaSolicitacao : ContentPage
             NovoItemSolicitacao(_solicitacao.Id);
         }
     }
+
+    //public async Task NavigateToNovaSolicitacaoAsync()
+    //{
+    //    await Shell.Current.GoToAsync("NovaSolicitacao");
+    //}
 }
+

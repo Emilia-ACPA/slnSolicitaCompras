@@ -45,6 +45,11 @@ namespace prjSolicitaCompras
                 await DisplayAlert("Erro", "Erro ao carregar os dados" + ex.Message, "OK");
             }
         }
+
+        //public async Task NavigateToListaSolicitacoesAsync()
+        //{
+        //    await Shell.Current.GoToAsync("ListaSolicitacoes");
+        //}
     }
 
 }
