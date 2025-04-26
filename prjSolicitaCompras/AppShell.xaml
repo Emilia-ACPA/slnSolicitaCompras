@@ -9,22 +9,31 @@
 
     <!-- Cabeçalho do Menu -->
     <Shell.FlyoutHeader>
-        <Grid BackgroundColor="LightGray" Padding="10">
-            <Label Text="Solicitação de Compras" FontSize="Small" HorizontalOptions="Center" />
-        </Grid>
+        <VerticalStackLayout>
+            <Grid BackgroundColor="LightGray" Padding="10">
+                <Label Text="Solicitação de Compras" FontSize="Small" HorizontalOptions="Center" />
+            </Grid>
+        </VerticalStackLayout>
     </Shell.FlyoutHeader>
 
-    <!-- Itens do Menu -->
-    <ShellContent Title="Tela Principal"
+     <!--Itens do Menu-->
+        <ShellContent Title="Tela Principal"
                   ContentTemplate="{DataTemplate local:MainPage}"
                   Route="MainPage" />
 
-    <ShellContent Title="Nova Solicitação"
+        <ShellContent Title="Nova Solicitação"
                   ContentTemplate="{DataTemplate local:NovaSolicitacao}"
                   Route="NovaSolicitacao" />
-    <ShellContent Title="Lista de Solicitações"
+        <ShellContent Title="Lista de Solicitações"
                   ContentTemplate="{DataTemplate local:ListaSolicitacoes}"
                   Route="ListaSolicitacoes" />
+
+        <!--<MenuItem Text="Tela Principal"
+              Command="{Binding NavigateToMainPageCommand}" />
+        <MenuItem Text="Nova Solicitação"
+              Command="{Binding NavigateToNovaSolicitacaoCommand}" />
+        <MenuItem Text="Lista de Solicitações"
+              Command="{Binding NavigateToListaSolicitacoesCommand}" />-->
 
     <!-- Rodapé do Menu -->
     <Shell.FlyoutFooter>

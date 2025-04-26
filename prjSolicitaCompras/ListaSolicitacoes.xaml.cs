@@ -42,4 +42,10 @@ public partial class ListaSolicitacoes : ContentPage
         base.OnAppearing();
         CarregaListaSolicitacoes();
     }
+
+    //public async Task NavigateToListaSolicitacoesAsync()  Todo
+    //{
+    //    await Shell.Current.GoToAsync("ListaSolicitacoes");
+    //}
+
 }

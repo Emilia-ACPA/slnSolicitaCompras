@@ -7,6 +7,9 @@
     
     <ScrollView>
         <VerticalStackLayout Margin="0,30,0,0">
+            <Label Text="Código"  Margin="10,10,10,0" />
+            <Entry x:Name="edCodigo" Margin="10,0,10,20" IsReadOnly="True" />
+
             <Label Text="Usuário" Margin="10,10,10,0" />
             <Picker x:Name="EdUsuario" Margin="10,0,10,20" />
 

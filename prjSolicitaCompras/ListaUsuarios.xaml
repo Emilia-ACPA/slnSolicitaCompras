@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="prjSolicitaCompras.ListaUsuarios">
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="10">
+            <Border Stroke="Black" Padding="5" Margin="10,0,10,0">
+                <Grid Padding="5" ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="1000" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="Código"  Grid.Column="0" Margin="5,0,0,5" FontAttributes="Bold" />
+                    <Label Text="Nome"    Grid.Column="1" Margin="0,0,0,5" FontAttributes="Bold" />
+                    <Label Text="Senha"   Grid.Column="2" Margin="0,0,0,5" FontAttributes="Bold" />
+                </Grid>
+            </Border>
+
+            <Border Stroke="Black" Padding="5" Margin="10,0,10,0">
+                <CollectionView x:Name="UsuariosListView">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="5" ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="1000" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="{Binding Id}" Grid.Column="0" Margin="5,0,0,5">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Text="{Binding NomeUsuario}"  Grid.Column="1" Margin="0,0,0,0" />
+                                <Label Text="{Binding Senha}"  Grid.Column="2" Margin="0,0,0,0" />
+
+                                
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

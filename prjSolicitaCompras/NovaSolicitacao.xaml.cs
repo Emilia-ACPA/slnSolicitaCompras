@@ -726,7 +726,7 @@ public partial class NovaSolicitacao : ContentPage
         }
     }
 
-    //public async Task NavigateToNovaSolicitacaoAsync()
+    //public async Task NavigateToNovaSolicitacaoAsync()    Todo
     //{
     //    await Shell.Current.GoToAsync("NovaSolicitacao");
     //}

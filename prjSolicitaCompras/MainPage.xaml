@@ -21,6 +21,13 @@
                 SemanticProperties.Hint="Clique para visualizar lista de solicitações"
                 Clicked="BtnListaSolicitacoes_Clicked"
                 HorizontalOptions="Fill" />
+
+            <Button
+                x:Name="BtnUsuarios"
+                Text="Usuários" 
+                SemanticProperties.Hint="Clique para visualizarCadastro de Usuários"
+                Clicked="BtnUsuarios_Clicked"
+                HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -46,10 +46,16 @@ namespace prjSolicitaCompras
             }
         }
 
-        //public async Task NavigateToListaSolicitacoesAsync()
-        //{
-        //    await Shell.Current.GoToAsync("ListaSolicitacoes");
-        //}
+        private async void BtnUsuarios_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushAsync(new ListaUsuarios(con));
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro", "Erro ao carregar os dados" + ex.Message, "OK");
+            }
+        }
     }
-
 }
