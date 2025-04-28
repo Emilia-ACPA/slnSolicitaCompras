@@ -58,9 +58,16 @@ namespace prjSolicitaCompras
             }
         }
 
-        private void BtnUnidadesMedida_Clicked(object sender, EventArgs e)
+        private async void BtnUnidadesMedida_Clicked(object sender, EventArgs e)
         {
-
+            try
+            {
+                await Navigation.PushAsync(new ListaUnidadesMedida(con));
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro", "Erro ao carregar os dados" + ex.Message, "OK");
+            }
         }
 
         private void BtnItens_Clicked(object sender, EventArgs e)

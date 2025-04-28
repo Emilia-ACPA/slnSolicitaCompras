@@ -96,7 +96,6 @@ public partial class Usuarios : ContentPage
                 await Navigation.PopAsync();
             }
         }
-
     }
 
     //Volta para a tela de lista de usuários.

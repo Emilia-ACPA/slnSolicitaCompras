@@ -18,15 +18,17 @@ public partial class ListaUsuarios : ContentPage
     {
         UsuariosListView.ItemsSource = _con.Table<Usuario>().ToList();
     }
+
     //Ao clicar no usuário, selecionando-o, abre a tela de edição do mesmo.
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         var label = (Label)sender;
-        var usuarioSelecionado = (Usuario)label.BindingContext;
-        var usuarioPage = new Usuarios(_con, usuarioSelecionado);
-        
-        await Navigation.PushAsync(usuarioPage);
+        var RegistroSelecionado = (Usuario)label.BindingContext;
+        var RegistroPage = new Usuarios(_con, RegistroSelecionado);
+
+        await Navigation.PushAsync(RegistroPage);
     }
+
     //Atualiza a lista de usuários com atualizações recentes no cadastro, toda vez que a tela for ativada(ou visualizada).
     protected override void OnAppearing()
     {
@@ -34,10 +36,9 @@ public partial class ListaUsuarios : ContentPage
         AtualizarListaUsuarios();
     }
 
+    //Cria um novo usuário, abrindo a tela de cadastro.
     private async void BtnNovo_Clicked(object sender, EventArgs e)
     {
-//        Usuarios usuarioPage = new Usuarios(_con, null);
-
         await Navigation.PushAsync(new Usuarios(_con, new Usuario()));
     }
 

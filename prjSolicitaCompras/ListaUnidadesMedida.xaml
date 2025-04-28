@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="prjSolicitaCompras.ListaUsuarios"
-             Title="Lista de Usuários">
+             x:Class="prjSolicitaCompras.ListaUnidadesMedida"
+             Title="Lista de Unidades de Medida">
 
     <ScrollView>
         <VerticalStackLayout Padding="10">
@@ -16,19 +16,17 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Text="Código"  Grid.Column="0" Margin="5,0,0,5" FontAttributes="Bold" />
-                    <Label Text="Nome"    Grid.Column="1" Margin="0,0,0,5" FontAttributes="Bold" />
-                    <Label Text="Senha"   Grid.Column="2" Margin="0,0,0,5" FontAttributes="Bold" />
+                    <Label Text="Descrição"    Grid.Column="1" Margin="0,0,0,5" FontAttributes="Bold" />
                 </Grid>
             </Border>
 
             <Border Stroke="Black" Padding="5" Margin="10,0,10,0">
-                <CollectionView x:Name="UsuariosListView">
+                <CollectionView x:Name="RegistrosListView">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid Padding="5" ColumnSpacing="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="1000" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
@@ -37,10 +35,7 @@
                                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                                     </Label.GestureRecognizers>
                                 </Label>
-                                <Label Text="{Binding NomeUsuario}"  Grid.Column="1" Margin="0,0,0,0" />
-                                <Label Text="{Binding Senha}"  Grid.Column="2" Margin="0,0,0,0" />
-
-                                
+                                <Label Text="{Binding Descricao}"  Grid.Column="1" Margin="0,0,0,0" />
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -49,12 +44,11 @@
 
             <Border Stroke="Black" Margin="10,20,10,10">
                 <HorizontalStackLayout Padding="1"  Margin="1,0,0,0" Spacing="10">
-                    <ImageButton x:Name="BtnNovo"     Padding="1" WidthRequest="50" HeightRequest="50" Source="Adicionar.png" Clicked="BtnNovo_Clicked" />
+                    <ImageButton x:Name="BtnNovo"     Padding="1" WidthRequest="50" HeightRequest="50" Source="adicionar.png" Clicked="BtnNovo_Clicked" />
                     <ImageButton x:Name="BtnImprimir" Padding="1" WidthRequest="50" HeightRequest="50" Source="imprimir.png" Clicked="BtnImprimir_Clicked" />
-                    <ImageButton x:Name="BtnVoltar"   Padding="1" WidthRequest="50" HeightRequest="50" Source="voltar.png" Clicked="BtnVoltar_Clicked" />
+                    <ImageButton x:Name="BtnVoltar"   Padding="1" WidthRequest="50" HeightRequest="50" Source="voltar.png" Clicked="BtnVoltar_Clicked"  />
                 </HorizontalStackLayout>
             </Border>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
