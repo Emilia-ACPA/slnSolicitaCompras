@@ -70,9 +70,16 @@ namespace prjSolicitaCompras
             }
         }
 
-        private void BtnItens_Clicked(object sender, EventArgs e)
+        private async void BtnItens_Clicked(object sender, EventArgs e)
         {
-
+            try
+            {
+                await Navigation.PushAsync(new ListaItens(con));
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro", "Erro ao carregar os dados" + ex.Message, "OK");
+            }
         }
     }
 }

@@ -1,45 +1,37 @@
+using System.Threading.Tasks;
 using SQLite;
 
 namespace prjSolicitaCompras;
 
-public partial class ListaUnidadesMedida : ContentPage
+public partial class ListaItens : ContentPage
 {
     private readonly SQLiteConnection _con;
-
-    public ListaUnidadesMedida(SQLiteConnection con)
-    {
-        InitializeComponent();
+    public ListaItens(SQLiteConnection con)
+	{
+		InitializeComponent();
         _con = con;
+
         AtualizarListaRegistros();
-    }
-
-    //Ao clicar no registro, selecionando-o, abre a tela de edição do mesmo.
-    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
-    {
-        var label = (Label)sender;
-        var RegistroSelecionado = (UnidadeMedida)label.BindingContext;
-        var RegistroPage = new UnidadesMedida(_con, RegistroSelecionado);
-
-        await Navigation.PushAsync(RegistroPage);
     }
 
     //Atualiza a lista de registros com atualizações recentes no cadastro, toda vez que a tela for ativada(ou visualizada).
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
         AtualizarListaRegistros();
     }
 
     //Recarrega objeto de persistência, atualizando dados com alterações sofridas.
     private void AtualizarListaRegistros()
     {
-        RegistrosListView.ItemsSource = _con.Table<UnidadeMedida>().ToList();
+        ItensListView.ItemsSource = _con.Table<Item>().ToList();
     }
 
     //Cria um novo registro, abrindo a tela de cadastro.
     private async void BtnNovo_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new UnidadesMedida(_con, new UnidadeMedida()));
+        await Navigation.PushAsync(new Itens(_con, new Item()));
     }
 
     //Imprime a lista de registros, mas ainda não implementado.
@@ -52,5 +44,15 @@ public partial class ListaUnidadesMedida : ContentPage
     private async void BtnVoltar_Clicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();
+    }
+
+    //Ao clicar no registro, selecionando-o, abre a tela de edição do mesmo.
+    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        var label = (Label)sender;
+        var RegistroSelecionado = (Item)label.BindingContext;
+        var RegistroPage = new Itens(_con, RegistroSelecionado);
+
+        await Navigation.PushAsync(RegistroPage);
     }
 }

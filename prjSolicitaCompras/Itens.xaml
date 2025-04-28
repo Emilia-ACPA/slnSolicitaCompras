@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="prjSolicitaCompras.Itens"
+             Title="Cadastro de Itens">
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label Text="Código"  Margin="10,10,10,0" />
+            <Entry x:Name="edCodigo" Margin="10,0,10,20" IsReadOnly="True" />
+
+            <Label Text="Descrição" Margin="10,10,10,0" />
+            <Entry x:Name="edDescricao" Margin="10,0,10,20" />
+
+            <Label Text="Valor Unitário" Margin="10,10,10,0" />
+            <Entry x:Name="edValorUnitario" Margin="10,0,10,20" />
+
+            <Border Stroke="Black" Margin="10,20,10,10">
+                <HorizontalStackLayout Padding="1" Margin="1,0,0,0" Spacing="10">
+                    <ImageButton x:Name="BtnSalvar"     Padding="1" WidthRequest="50" HeightRequest="50" Source="salvar.png" Clicked="BtnSalvar_Clicked" />
+                    <ImageButton x:Name="BtnCancelar"   Padding="1" WidthRequest="50" HeightRequest="50" Source="cancelar.png" Clicked="BtnCancelar_Clicked" />
+                    <ImageButton x:Name="BtnExcluir"    Padding="1" WidthRequest="50" HeightRequest="50" Source="Excluir.png" Clicked="BtnExcluir_Clicked" />
+                    <ImageButton x:Name="BtnVoltar"     Padding="1" WidthRequest="50" HeightRequest="50" Source="voltar.png" Clicked="BtnVoltar_Clicked" />
+                </HorizontalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
