@@ -25,7 +25,7 @@ public partial class NovaSolicitacao : ContentPage
             {
                 AddNovaSolicitacao(solicitacao);
                 CarregarCabecalhoItens();
-                NovoItemSolicitacao(solicitacao.Id);
+//                NovoItemSolicitacao(solicitacao.Id); Novo item não é liberado neste momento. Não faz sentido porque a Solicitação não existe ainda.
             }
             else
             {
@@ -646,7 +646,8 @@ public partial class NovaSolicitacao : ContentPage
         {
             _con.Insert(_solicitacao);
             await DisplayAlert("Sucesso", "Nova solicitação inserida com sucesso.", "OK");
-            AddNovaSolicitacao(_solicitacao);
+//            AddNovaSolicitacao(_solicitacao); Não vamos abrir novo cadastro neste momento
+            NovoItemSolicitacao(_solicitacao.Id);
         }
     }
   
@@ -682,8 +683,8 @@ public partial class NovaSolicitacao : ContentPage
         NivelUrgenciaPicker.SelectedIndex = -1;
         DtSolicitacao.Text = DateTime.Now.ToString("dd/MM/yyyy");
     
-        CarregarItensSolicitacao(solicitacao.Id);
-        NovoItemSolicitacao(solicitacao.Id);
+//        CarregarItensSolicitacao(solicitacao.Id);
+//        NovoItemSolicitacao(solicitacao.Id);
     }
 
     private async void BtnExcluir_Clicked(object sender, EventArgs e)
