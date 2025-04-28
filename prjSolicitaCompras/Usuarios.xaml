@@ -20,7 +20,6 @@
                     <ImageButton x:Name="BtnCancelar"   Padding="1" WidthRequest="50" HeightRequest="50" Source="cancelar.png" Clicked="BtnCancelar_Clicked" />
                     <ImageButton x:Name="BtnExcluir"    Padding="1" WidthRequest="50" HeightRequest="50" Source="Excluir.png" Clicked="BtnExcluir_Clicked" />
                     <ImageButton x:Name="BtnVoltar"     Padding="1" WidthRequest="50" HeightRequest="50" Source="voltar.png" Clicked="BtnVoltar_Clicked" />
-                    <ImageButton x:Name="BtnSair"       Padding="1" WidthRequest="50" HeightRequest="50" Source="sair.png" />
                 </HorizontalStackLayout>
             </Border>
 

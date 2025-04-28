@@ -57,5 +57,15 @@ namespace prjSolicitaCompras
                 await DisplayAlert("Erro", "Erro ao carregar os dados" + ex.Message, "OK");
             }
         }
+
+        private void BtnUnidadesMedida_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnItens_Clicked(object sender, EventArgs e)
+        {
+
+        }
     }
 }

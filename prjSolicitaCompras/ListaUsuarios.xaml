@@ -44,6 +44,15 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Border>
+
+            <Border Stroke="Black" Margin="10,20,10,10">
+                <HorizontalStackLayout Padding="1"  Margin="1,0,0,0" Spacing="10">
+                    <ImageButton x:Name="BtnNovo"     Padding="1" WidthRequest="50" HeightRequest="50" Source="adicionar.png" Clicked="BtnNovo_Clicked" />
+                    <ImageButton x:Name="BtnImprimir" Padding="1" WidthRequest="50" HeightRequest="50" Source="imprimir.png" Clicked="BtnImprimir_Clicked" />
+                    <ImageButton x:Name="BtnVoltar"   Padding="1" WidthRequest="50" HeightRequest="50" Source="voltar.png" Clicked="BtnVoltar_Clicked" />
+                </HorizontalStackLayout>
+            </Border>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

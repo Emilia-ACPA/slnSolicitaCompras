@@ -22,11 +22,27 @@
                 Clicked="BtnListaSolicitacoes_Clicked"
                 HorizontalOptions="Fill" />
 
+            <BoxView HeightRequest="1" BackgroundColor="Gray" HorizontalOptions="Fill" />
+
+            <Label Text="CADASTROS" HorizontalTextAlignment="Center" FontSize="Subtitle"/>
+
             <Button
                 x:Name="BtnUsuarios"
                 Text="Usuários" 
-                SemanticProperties.Hint="Clique para visualizarCadastro de Usuários"
+                SemanticProperties.Hint="Clique para visualizar Cadastro de Usuários"
                 Clicked="BtnUsuarios_Clicked"
+                HorizontalOptions="Fill" />
+            <Button
+                x:Name="BtnUnidadesMedida"
+                Text="Unidades de Medida" 
+                SemanticProperties.Hint="Clique para visualizar Cadastro de Unidades de Medida"
+                Clicked="BtnUnidadesMedida_Clicked"
+                HorizontalOptions="Fill" />
+            <Button
+                x:Name="BtnItens"
+                Text="Itens (Produtos)" 
+                SemanticProperties.Hint="Clique para visualizar Cadastro de Itens(Produtos)"
+                Clicked="BtnItens_Clicked"
                 HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
