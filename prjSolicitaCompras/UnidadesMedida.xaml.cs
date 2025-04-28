@@ -32,6 +32,7 @@ public partial class UnidadesMedida : ContentPage
         }
     }
 
+    //Salva os dados da unidadeMedida no banco de dados.
     private async void BtnSalvar_Clicked(object sender, EventArgs e)
     {
         //Verifica se todos os campos estão preenchidos.
@@ -60,6 +61,7 @@ public partial class UnidadesMedida : ContentPage
         }
     }
 
+    //Cancela a edição e voltar para a tela de lista de usuários.
     private async void BtnCancelar_Clicked(object sender, EventArgs e)
     {
         bool confirmacao = await DisplayAlert(
@@ -73,6 +75,7 @@ public partial class UnidadesMedida : ContentPage
         }
     }
 
+    //Exclui o registro de unidadeMedida do banco de dados.
     private async void BtnExcluir_Clicked(object sender, EventArgs e)
     {
         bool confirmacao = await DisplayAlert(
@@ -93,6 +96,7 @@ public partial class UnidadesMedida : ContentPage
         }
     }
 
+    //Volta para a tela de lista de usuários.
     private async void BtnVoltar_Clicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();
