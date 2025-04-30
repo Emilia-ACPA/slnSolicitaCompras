@@ -9,7 +9,7 @@
                 <Grid Padding="5" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="1000" />
+                        <ColumnDefinition Width="250" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
@@ -20,27 +20,29 @@
             </Border>
 
             <Border Stroke="Black" Padding="5" Margin="10,0,10,0">
-                <CollectionView x:Name="ItensListView">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Padding="5" ColumnSpacing="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="1000" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                <ScrollView Orientation="Both">
+                    <CollectionView x:Name="ItensListView">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="5" ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="250" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding Id}" Grid.Column="0" Margin="5,0,0,5">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                                    </Label.GestureRecognizers>
-                                </Label>
-                                <Label Text="{Binding Descricao}"  Grid.Column="1" Margin="0,0,0,0" />
-                                <Label Text="{Binding ValorUnitario}"  Grid.Column="2" Margin="0,0,0,0" />
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                    <Label Text="{Binding Id}" Grid.Column="0" Margin="5,0,0,5">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding Descricao}"  Grid.Column="1" Margin="0,0,0,0" />
+                                    <Label Text="{Binding ValorUnitario}"  Grid.Column="2" Margin="0,0,0,0" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ScrollView>
             </Border>
 
             <Border Stroke="Black" Margin="10,20,10,10">

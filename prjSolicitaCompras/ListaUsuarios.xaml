@@ -4,15 +4,22 @@
              x:Class="prjSolicitaCompras.ListaUsuarios"
              Title="Lista de Usuários">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="10">
+    <Grid x:Name="gridT>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <!-- Ocupa o espaço restante -->
+            <RowDefinition Height="Auto" />
+            <!-- Altura automática para o rodapé -->
+        </Grid.RowDefinitions>
 
+        <VerticalStackLayout Grid.Row="0" Padding="10" Margin="10,0,10,0">
+            <!--//Conteúdo Principal-->
             <Border Stroke="Black" Padding="5" Margin="10,0,10,0">
                 <Grid Padding="5" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="1000" />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <Label Text="Código"  Grid.Column="0" Margin="5,0,0,5" FontAttributes="Bold" />
@@ -21,40 +28,40 @@
                 </Grid>
             </Border>
 
-            <Border Stroke="Black" Padding="5" Margin="10,0,10,0">
-                <CollectionView x:Name="UsuariosListView">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Padding="5" ColumnSpacing="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="1000" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+            <Border Stroke="Black" Padding="5" >
+                <ScrollView Orientation="Both" Margin="10,0,10,0">
+                    <CollectionView x:Name="UsuariosListView">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="5" ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding Id}" Grid.Column="0" Margin="5,0,0,5">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                                    </Label.GestureRecognizers>
-                                </Label>
-                                <Label Text="{Binding NomeUsuario}"  Grid.Column="1" Margin="0,0,0,0" />
-                                <Label Text="{Binding Senha}"  Grid.Column="2" Margin="0,0,0,0" />
-
-                                
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                    <Label Text="{Binding Id}" Grid.Column="0" Margin="5,0,0,5">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding NomeUsuario}"  Grid.Column="1" Margin="0,0,0,0" />
+                                    <Label Text="{Binding Senha}"  Grid.Column="2" Margin="0,0,0,0" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ScrollView>
             </Border>
+        </VerticalStackLayout>
 
-            <Border Stroke="Black" Margin="10,20,10,10">
+        <!--//Conteúdo do Rodapé-->
+            <Border Grid.Row="1" Stroke="Black" Margin="20,20,20,10">
                 <HorizontalStackLayout Padding="1"  Margin="1,0,0,0" Spacing="10">
                     <ImageButton x:Name="BtnNovo"     Padding="1" WidthRequest="50" HeightRequest="50" Source="Adicionar.png" Clicked="BtnNovo_Clicked" />
                     <ImageButton x:Name="BtnImprimir" Padding="1" WidthRequest="50" HeightRequest="50" Source="imprimir.png" Clicked="BtnImprimir_Clicked" />
                     <ImageButton x:Name="BtnVoltar"   Padding="1" WidthRequest="50" HeightRequest="50" Source="voltar.png" Clicked="BtnVoltar_Clicked" />
                 </HorizontalStackLayout>
             </Border>
-
-        </VerticalStackLayout>
-    </ScrollView>
+    </Grid>
 </ContentPage>
