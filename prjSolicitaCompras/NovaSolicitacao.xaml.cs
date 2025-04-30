@@ -682,10 +682,7 @@ public partial class NovaSolicitacao : ContentPage
         EdUsuario.SelectedIndex = -1;
         NivelUrgenciaPicker.SelectedIndex = -1;
         DtSolicitacao.Text = DateTime.Now.ToString("dd/MM/yyyy");
-    
-//        CarregarItensSolicitacao(solicitacao.Id);
-//        NovoItemSolicitacao(solicitacao.Id);
-    }
+        }
 
     private async void BtnExcluir_Clicked(object sender, EventArgs e)
     {
@@ -726,10 +723,5 @@ public partial class NovaSolicitacao : ContentPage
             NovoItemSolicitacao(_solicitacao.Id);
         }
     }
-
-    //public async Task NavigateToNovaSolicitacaoAsync()    Todo
-    //{
-    //    await Shell.Current.GoToAsync("NovaSolicitacao");
-    //}
 }
 

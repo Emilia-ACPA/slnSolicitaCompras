@@ -28,21 +28,49 @@ public partial class Usuarios : ContentPage
         //Novo Usuário, salva e volta para a tela de lista de usuários.
         if (_usuario.Id == 0)
         {
+            var usuarioExistente = _con.Table<Usuario>().FirstOrDefault(u => u.NomeUsuario == "nome_desejado");
+            if (usuarioExistente != null)
+            {
+                // Registro encontrado
+                await DisplayAlert("Erro", "Usuário já existe.", "Ok");
+                return;
+            }
             _usuario.NomeUsuario = edNome.Text;
             _usuario.Senha = edSenha.Text;
-            _con.Insert(_usuario);
-            await DisplayAlert("Sucesso", "Usuário cadastrado com sucesso.", "OK");
+            try
+            {
+                _con.Insert(_usuario);
+                await DisplayAlert("Sucesso", "Usuário cadastrado com sucesso.", "OK");
 
-            await Navigation.PopAsync();
-
+                await Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                // Tratamento de erro específico do SQLite
+                if (ex.Message.Contains("UNIQUE constraint failed"))
+                {
+                    await DisplayAlert("Erro", "Já existe um registro com este nome de usuário.", "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Erro", "Erro desconhecido ao inserir registro: " + ex.Message, "OK");
+                }
+            }
         }
         //Usuário já existente, salva e permanece na tela de edição.
         else
         {
             _usuario.NomeUsuario = edNome.Text;
             _usuario.Senha = edSenha.Text;
-            _con.Update(_usuario);
-            await DisplayAlert("Sucesso", "Usuário atualizado com sucesso.", "OK");
+            try
+            {
+                _con.Update(_usuario);
+                await DisplayAlert("Sucesso", "Usuário atualizado com sucesso.", "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro", "Erro desconhecido ao salvar registro: " + ex.Message, "OK");
+            }
         }
     }
 

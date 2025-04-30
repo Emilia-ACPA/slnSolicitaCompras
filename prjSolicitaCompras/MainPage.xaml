@@ -44,6 +44,13 @@
                 SemanticProperties.Hint="Clique para visualizar Cadastro de Itens(Produtos)"
                 Clicked="BtnItens_Clicked"
                 HorizontalOptions="Fill" />
+            <Button
+                x:Name="BtnLimparItensBase"
+                Text="Limpar todos os itens da Base de Dados" 
+                SemanticProperties.Hint="Clique para limpar todos os itens da base de dados"
+                Clicked="BtnLimparItensBase_Clicked"
+                HorizontalOptions="Fill" />
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

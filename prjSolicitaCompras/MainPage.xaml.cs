@@ -17,6 +17,7 @@ namespace prjSolicitaCompras
             con.CreateTable<Item>();
             con.CreateTable<UnidadeMedida>();
             con.CreateTable<Solicitacao>();
+            con.CreateTable<ItemSolicitacao>();
 
             Console.WriteLine($"Caminho do banco de dados: {dbPath}");
 
@@ -80,6 +81,13 @@ namespace prjSolicitaCompras
             {
                 await DisplayAlert("Erro", "Erro ao carregar os dados" + ex.Message, "OK");
             }
+        }
+
+        private void BtnLimparItensBase_Clicked(object sender, EventArgs e)
+        {
+            List<ItemSolicitacao> ItensSolicitacao = con.Table<ItemSolicitacao>().ToList();
+            var ItenssolicitacaoCount = ItensSolicitacao.Count;
+            con.Execute("delete from ItensSolicitacao");
         }
     }
 }

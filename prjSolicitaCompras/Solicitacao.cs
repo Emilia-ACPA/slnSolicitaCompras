@@ -60,7 +60,7 @@ namespace prjSolicitaCompras
         public void CarregarItens(SQLiteConnection con)
         {
             //Carregar Itens
-            ItensSolicitacao = con.Table<ItemSolicitacao>().Where(i => i.IdSolicitacao == Id).ToList();
+            List<ItemSolicitacao> ItensSolicitacao = con.Table<ItemSolicitacao>().Where(i => i.IdSolicitacao == Id).ToList();
             foreach (var item in ItensSolicitacao)
             {
                 // Descrição do item
