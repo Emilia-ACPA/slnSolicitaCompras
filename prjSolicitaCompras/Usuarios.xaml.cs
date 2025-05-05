@@ -8,7 +8,7 @@ public partial class Usuarios : ContentPage
     private readonly Usuario _usuario;
 
     public Usuarios(SQLiteConnection con, Usuario usuario)
-	{
+    {
         InitializeComponent();
         _con = con;
         _usuario = usuario;

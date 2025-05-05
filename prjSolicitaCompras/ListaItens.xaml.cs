@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using SQLite;
 
 namespace prjSolicitaCompras;
@@ -7,8 +6,8 @@ public partial class ListaItens : ContentPage
 {
     private readonly SQLiteConnection _con;
     public ListaItens(SQLiteConnection con)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _con = con;
 
         AtualizarListaRegistros();
@@ -25,7 +24,7 @@ public partial class ListaItens : ContentPage
     //Recarrega objeto de persistência, atualizando dados com alterações sofridas.
     private void AtualizarListaRegistros()
     {
-        ItensListView.ItemsSource = _con.Table<Item>().ToList();
+        RegistrosListView.ItemsSource = _con.Table<Item>().ToList();
     }
 
     //Cria um novo registro, abrindo a tela de cadastro.
@@ -54,5 +53,17 @@ public partial class ListaItens : ContentPage
         var RegistroPage = new Itens(_con, RegistroSelecionado);
 
         await Navigation.PushAsync(RegistroPage);
+    }
+
+    // Sincroniza o ScrollView dos dados com o ScrollView do cabeçalho
+    private void CabecalhoScrollView_Scrolled(object sender, ScrolledEventArgs e)
+    {
+        DadosScrollView.ScrollToAsync(e.ScrollX, 0, false);
+    }
+
+    // Sincroniza o ScrollView do cabeçalho com o ScrollView dos dados
+    private void DadosScrollView_Scrolled(object sender, ScrolledEventArgs e)
+    {
+        CabecalhoScrollView.ScrollToAsync(e.ScrollX, 0, false);
     }
 }

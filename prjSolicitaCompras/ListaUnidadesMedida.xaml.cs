@@ -53,4 +53,16 @@ public partial class ListaUnidadesMedida : ContentPage
     {
         await Navigation.PopAsync();
     }
+
+    // Sincroniza o ScrollView dos dados com o ScrollView do cabeçalho
+    private void CabecalhoScrollView_Scrolled(object sender, ScrolledEventArgs e)
+    {
+        DadosScrollView.ScrollToAsync(e.ScrollX, 0, false);
+    }
+
+    // Sincroniza o ScrollView do cabeçalho com o ScrollView dos dados
+    private void DadosScrollView_Scrolled(object sender, ScrolledEventArgs e)
+    {
+        CabecalhoScrollView.ScrollToAsync(e.ScrollX, 0, false);
+    }
 }

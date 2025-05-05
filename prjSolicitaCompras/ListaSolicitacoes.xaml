@@ -2,51 +2,76 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
             x:Class="prjSolicitaCompras.ListaSolicitacoes"  
-            Title="Lista de Solicitações de Compra">  
+            Title="Lista de Solicitações de Compra">
 
-   <VerticalStackLayout Padding="10">  
-       <Border Stroke="Black" Padding="5" Margin="10,0,10,0">  
-           <Grid Padding="5" ColumnSpacing="10">  
-               <Grid.ColumnDefinitions>  
-                   <ColumnDefinition Width="50" />  
-                   <ColumnDefinition Width="80" />  
-                   <ColumnDefinition Width="Auto" />  
-                   <ColumnDefinition Width="Auto" />  
-               </Grid.ColumnDefinitions>  
+    <!--Cabeçalho, Dados e Rodapé-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-               <Label Text="Código"                Grid.Column="0" Margin="5,0,0,5" FontAttributes="Bold" />  
-               <Label Text="Solicitante"           Grid.Column="1" Margin="0,0,0,5" FontAttributes="Bold" />  
-               <Label Text="Data da Solicitação"   Grid.Column="2" Margin="0,0,0,5" FontAttributes="Bold" />  
-               <Label Text="Nível de Urgência"     Grid.Column="3" Margin="0,0,0,5" FontAttributes="Bold" />  
-           </Grid>  
-       </Border>  
+        <!--//Conteúdo Principal - Label do Grid-->
+        <Border Grid.Row="0" Stroke="Black" Padding="5" Margin="1,1,1,1">
+            <ScrollView x:Name="CabecalhoScrollView" Orientation="Horizontal" Grid.Row="0" Scrolled="CabecalhoScrollView_Scrolled"
+                        HorizontalScrollBarVisibility="Never" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!--Colunas a serem definidas posteriormente de forna dinâmica-->
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-       <Border Stroke="Black" Padding="5" Margin="10,0,10,0">
-            <ScrollView Orientation="Both">
-                <CollectionView x:Name="SolicitacoesListView">
+                    <!--Colunas a serem definidas posteriormente de forna dinâmica-->
+                    <Label Text="Código"                Grid.Column="0" Margin="5,0,5,5" FontAttributes="Bold" />
+                    <Label Text="Solicitante"           Grid.Column="1" Margin="0,0,5,5" FontAttributes="Bold" />
+                    <Label Text="Data Solicitação"      Grid.Column="2" Margin="0,0,5,5" FontAttributes="Bold" />
+                    <Label Text="Nível Urgência"        Grid.Column="3" Margin="0,0,5,5" FontAttributes="Bold" />
+                </Grid>
+            </ScrollView>
+        </Border>
+
+        <!--//Conteúdo Principal - Dados do Grid-->
+        <Border Grid.Row="1" Stroke="Black" Padding="5" Margin="1,1,1,1" >
+            <ScrollView x:Name="DadosScrollView" Orientation="Horizontal" Grid.Row="1" Scrolled="DadosScrollView_Scrolled">
+                <CollectionView x:Name="RegistrosListView" ItemsLayout="VerticalList" >
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Padding="5" ColumnSpacing="10">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="50" />
+                                    <!--Colunas dos dados, a serem definidas posteriormente de forna dinâmica-->
                                     <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding Id}" Grid.Column="0" Margin="5,0,0,5">
+                                <!--Dados a serem definidas posteriormente de forna dinâmica-->
+                                <Label Text="{Binding Id}" Grid.Column="0" Margin="5,0,5,5">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnLabelTapped" />
                                     </Label.GestureRecognizers>
                                 </Label>
-                                <Label Text="{Binding NomeSolicitante}"  Grid.Column="1" Margin="0,0,0,0" />
-                                <Label Text="{Binding DataSolicitacao}"  Grid.Column="2" Margin="0,0,0,0" />
-                                <Label Text="{Binding StrNivelUrgencia}" Grid.Column="3" Margin="0,0,0,0" />
+                                <Label Text="{Binding NomeSolicitante}"  Grid.Column="1" Margin="0,0,5,0" />
+                                <Label Text="{Binding DataSolicitacao}"  Grid.Column="2" Margin="0,0,5,0" />
+                                <Label Text="{Binding StrNivelUrgencia}" Grid.Column="3" Margin="0,0,5,0" />
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </ScrollView>
-        </Border>  
-   </VerticalStackLayout>  
+        </Border>
+
+        <!--//Conteúdo do Rodapé-->
+        <Border Grid.Row="2" Stroke="Black" Margin="1,1,1,1">
+            <HorizontalStackLayout Padding="5"  Margin="1,1,1,1" Spacing="20">
+                <ImageButton x:Name="BtnNovo"     Padding="1" WidthRequest="5" HeightRequest="5" Source="Adicionar.png" Clicked="BtnNovo_Clicked" />
+                <ImageButton x:Name="BtnImprimir" Padding="1" WidthRequest="5" HeightRequest="5" Source="imprimir.png" Clicked="BtnImprimir_Clicked" />
+                <ImageButton x:Name="BtnVoltar"   Padding="1" WidthRequest="5" HeightRequest="5" Source="voltar.png" Clicked="BtnVoltar_Clicked" />
+            </HorizontalStackLayout>
+        </Border>
+    </Grid>
 </ContentPage>

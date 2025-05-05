@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SQLite;
 
 namespace prjSolicitaCompras
@@ -31,6 +26,6 @@ namespace prjSolicitaCompras
         [Ignore]
         public string UnidadeMedida { get; set; } = string.Empty;
 
-        public ItemSolicitacao() {}
+        public ItemSolicitacao() { }
     }
 }

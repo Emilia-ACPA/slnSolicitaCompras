@@ -4,52 +4,66 @@
              x:Class="prjSolicitaCompras.ListaUnidadesMedida"
              Title="Lista de Unidades de Medida">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="10">
+    <!--Cabeçalho, Dados e Rodapé-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-            <Border Stroke="Black" Padding="5" Margin="10,0,10,0">
-                <Grid Padding="5" ColumnSpacing="10">
+        <!--//Conteúdo Principal - Label do Grid-->
+        <Border Grid.Row="0" Stroke="Black" Padding="5" Margin="1,1,1,1">
+            <ScrollView x:Name="CabecalhoScrollView" Orientation="Horizontal" Grid.Row="0" Scrolled="CabecalhoScrollView_Scrolled"
+                        HorizontalScrollBarVisibility="Never" >
+                <Grid>
                     <Grid.ColumnDefinitions>
+                        <!--Colunas a serem definidas posteriormente de forna dinâmica-->
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Text="Código"  Grid.Column="0" Margin="5,0,0,5" FontAttributes="Bold" />
-                    <Label Text="Descrição"    Grid.Column="1" Margin="0,0,0,5" FontAttributes="Bold" />
+                    <!--Colunas a serem definidas posteriormente de forna dinâmica-->
+                    <Label Text="Código"    Grid.Column="0" Margin="5,0,5,5" FontAttributes="Bold" />
+                    <Label Text="Descrição" Grid.Column="1" Margin="0,0,5,5" FontAttributes="Bold" />
                 </Grid>
-            </Border>
+            </ScrollView>
+        </Border>
 
-            <Border Stroke="Black" Padding="5" Margin="10,0,10,0">
-                <ScrollView Orientation="Both">
-                    <CollectionView x:Name="RegistrosListView">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Padding="5" ColumnSpacing="10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
+        <!--//Conteúdo Principal - Dados do Grid-->
+        <Border Grid.Row="1" Stroke="Black" Padding="5" Margin="1,1,1,1" >
+            <ScrollView x:Name="DadosScrollView" Orientation="Horizontal" Grid.Row="1" Scrolled="DadosScrollView_Scrolled">
+                <CollectionView x:Name="RegistrosListView" ItemsLayout="VerticalList" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <!--Colunas dos dados, a serem definidas posteriormente de forna dinâmica-->
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                                    <Label Text="{Binding Id}" Grid.Column="0" Margin="5,0,0,5">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label Text="{Binding Descricao}"  Grid.Column="1" Margin="0,0,0,0" />
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </ScrollView>
-            </Border>
+                                <!--Dados a serem definidas posteriormente de forna dinâmica-->
+                                <Label Text="{Binding Id}" Grid.Column="0" Margin="5,0,5,5">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Text="{Binding Descricao}"  Grid.Column="1" Margin="0,0,5,0" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+        </Border>
 
-            <Border Stroke="Black" Margin="10,20,10,10">
-                <HorizontalStackLayout Padding="1"  Margin="1,0,0,0" Spacing="10">
-                    <ImageButton x:Name="BtnNovo"     Padding="1" WidthRequest="50" HeightRequest="50" Source="adicionar.png" Clicked="BtnNovo_Clicked" />
-                    <ImageButton x:Name="BtnImprimir" Padding="1" WidthRequest="50" HeightRequest="50" Source="imprimir.png" Clicked="BtnImprimir_Clicked" />
-                    <ImageButton x:Name="BtnVoltar"   Padding="1" WidthRequest="50" HeightRequest="50" Source="voltar.png" Clicked="BtnVoltar_Clicked"  />
-                </HorizontalStackLayout>
-            </Border>
-        </VerticalStackLayout>
-    </ScrollView>
+        <!--//Conteúdo do Rodapé-->
+        <Border Grid.Row="2" Stroke="Black" Margin="1,1,1,1">
+            <HorizontalStackLayout Padding="5"  Margin="1,1,1,1" Spacing="20">
+                <ImageButton x:Name="BtnNovo"     Padding="1" WidthRequest="5" HeightRequest="5" Source="Adicionar.png" Clicked="BtnNovo_Clicked" />
+                <ImageButton x:Name="BtnImprimir" Padding="1" WidthRequest="5" HeightRequest="5" Source="imprimir.png" Clicked="BtnImprimir_Clicked" />
+                <ImageButton x:Name="BtnVoltar"   Padding="1" WidthRequest="5" HeightRequest="5" Source="voltar.png" Clicked="BtnVoltar_Clicked" />
+            </HorizontalStackLayout>
+        </Border>
+    </Grid>
 </ContentPage>

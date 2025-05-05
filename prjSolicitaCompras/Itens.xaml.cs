@@ -8,8 +8,8 @@ public partial class Itens : ContentPage
     private readonly SQLiteConnection _con;
     private readonly Item _item;
     public Itens(SQLiteConnection con, Item item)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _con = con;
         _item = item;
 

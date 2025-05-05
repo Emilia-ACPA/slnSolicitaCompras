@@ -1,9 +1,5 @@
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using Microsoft.Maui.Controls.Handlers;
 using SQLite;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace prjSolicitaCompras;
 
@@ -25,7 +21,7 @@ public partial class NovaSolicitacao : ContentPage
             {
                 AddNovaSolicitacao(solicitacao);
                 CarregarCabecalhoItens();
-//                NovoItemSolicitacao(solicitacao.Id); Novo item não é liberado neste momento. Não faz sentido porque a Solicitação não existe ainda.
+                //                NovoItemSolicitacao(solicitacao.Id); Novo item não é liberado neste momento. Não faz sentido porque a Solicitação não existe ainda.
             }
             else
             {
@@ -47,7 +43,7 @@ public partial class NovaSolicitacao : ContentPage
 
         gridItensSolicitacao.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-        int linhaAtualGrid = itens.Count+1;
+        int linhaAtualGrid = itens.Count + 1;
 
         // Código
         var edCodigo = new Entry
@@ -261,7 +257,7 @@ public partial class NovaSolicitacao : ContentPage
 
     private void CarregarItensSolicitacao(int solicitacaoId)
     {
-        List < ItemSolicitacao > itens = _con.Table<ItemSolicitacao>().Where(i => i.IdSolicitacao == solicitacaoId).ToList();
+        List<ItemSolicitacao> itens = _con.Table<ItemSolicitacao>().Where(i => i.IdSolicitacao == solicitacaoId).ToList();
 
         // Limpa e carrega cabeçalho
         CarregarCabecalhoItens();
@@ -270,7 +266,7 @@ public partial class NovaSolicitacao : ContentPage
         for (int i = 0; i < itens.Count; i++)
         {
             var item = itens[i];
-            var linhaAtualGrid = i+1;   //Iniciando de 1, porque linha 0 é o cabeçalho do grid
+            var linhaAtualGrid = i + 1;   //Iniciando de 1, porque linha 0 é o cabeçalho do grid
 
             // Adicionar uma nova linha para cada item
             gridItensSolicitacao.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -572,10 +568,10 @@ public partial class NovaSolicitacao : ContentPage
             itemSolicitacao.Quantidade = decimal.Parse(edQuantidade.Text);
         }
 
-            // Valor Unitário
-            var edValorUnitario = gridItensSolicitacao.Children
-                .OfType<Entry>()
-                .FirstOrDefault(c => Grid.GetRow(c) == indexLinha && Grid.GetColumn(c) == 4);
+        // Valor Unitário
+        var edValorUnitario = gridItensSolicitacao.Children
+            .OfType<Entry>()
+            .FirstOrDefault(c => Grid.GetRow(c) == indexLinha && Grid.GetColumn(c) == 4);
         if (edValorUnitario.Text != null && edValorUnitario.Text != "")
         {
             itemSolicitacao.ValorUnitario = decimal.Parse(edValorUnitario.Text);
@@ -646,11 +642,11 @@ public partial class NovaSolicitacao : ContentPage
         {
             _con.Insert(_solicitacao);
             await DisplayAlert("Sucesso", "Nova solicitação inserida com sucesso.", "OK");
-//            AddNovaSolicitacao(_solicitacao); Não vamos abrir novo cadastro neste momento
+            //            AddNovaSolicitacao(_solicitacao); Não vamos abrir novo cadastro neste momento
             NovoItemSolicitacao(_solicitacao.Id);
         }
     }
-  
+
     private void CarregarUsuarios()
     {
         var usuarios = _con.Table<Usuario>().ToList();
@@ -674,7 +670,7 @@ public partial class NovaSolicitacao : ContentPage
         }
 
         DtSolicitacao.Text = solicitacao.DataSolicitacao.ToString("dd/MM/yyyy");
-        NivelUrgenciaPicker.SelectedIndex = solicitacao.NivelUrgencia-1;
+        NivelUrgenciaPicker.SelectedIndex = solicitacao.NivelUrgencia - 1;
     }
 
     private void AddNovaSolicitacao(Solicitacao solicitacao)
@@ -682,7 +678,7 @@ public partial class NovaSolicitacao : ContentPage
         EdUsuario.SelectedIndex = -1;
         NivelUrgenciaPicker.SelectedIndex = -1;
         DtSolicitacao.Text = DateTime.Now.ToString("dd/MM/yyyy");
-        }
+    }
 
     private async void BtnExcluir_Clicked(object sender, EventArgs e)
     {

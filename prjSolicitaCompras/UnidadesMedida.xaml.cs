@@ -7,8 +7,8 @@ public partial class UnidadesMedida : ContentPage
     private readonly SQLiteConnection _con;
     private readonly UnidadeMedida _unidadeMedida;
     public UnidadesMedida(SQLite.SQLiteConnection con, UnidadeMedida unidadeMedida)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _con = con;
         _unidadeMedida = unidadeMedida;
 

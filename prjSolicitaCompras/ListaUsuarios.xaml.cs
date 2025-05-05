@@ -5,18 +5,19 @@ namespace prjSolicitaCompras;
 public partial class ListaUsuarios : ContentPage
 {
     private readonly SQLiteConnection _con;
-    
+
     //No construtor, inicializa a tela de lista de usuários e carrega os dados do banco de dados, armazeando em uma propriedade privada da classe.
     public ListaUsuarios(SQLiteConnection con)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _con = con;
         AtualizarListaUsuarios();
     }
+
     //Recarrega objeto Usuário, atualizando dados com alterações sofridas.
     private void AtualizarListaUsuarios()
     {
-        UsuariosListView.ItemsSource = _con.Table<Usuario>().ToList();
+        RegistrosListView.ItemsSource = _con.Table<Usuario>().ToList();
     }
 
     //Ao clicar no usuário, selecionando-o, abre a tela de edição do mesmo.
@@ -52,5 +53,17 @@ public partial class ListaUsuarios : ContentPage
     private async void BtnVoltar_Clicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();
+    }
+
+    // Sincroniza o ScrollView do cabeçalho com o ScrollView dos dados
+    private void DadosScrollView_Scrolled(object sender, ScrolledEventArgs e)
+    {
+        CabecalhoScrollView.ScrollToAsync(e.ScrollX, 0, false);
+    }
+
+    // Sincroniza o ScrollView dos dados com o ScrollView do cabeçalho
+    private void CabecalhoScrollView_Scrolled(object sender, ScrolledEventArgs e)
+    {
+        DadosScrollView.ScrollToAsync(e.ScrollX, 0, false);
     }
 }

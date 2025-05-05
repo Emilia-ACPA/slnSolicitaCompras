@@ -3,7 +3,76 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="prjSolicitaCompras.ListaItens"
              Title="ListaItens">
-    <ScrollView>
+
+    <!--Cabeçalho, Dados e Rodapé-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--//Conteúdo Principal - Cabeçalho do Grid-->
+        <Border Grid.Row="0" Stroke="Black" Padding="5" Margin="1,1,1,1">
+            <ScrollView x:Name="CabecalhoScrollView" Orientation="Horizontal" Grid.Row="0" Scrolled="CabecalhoScrollView_Scrolled"
+                        HorizontalScrollBarVisibility="Never" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!--Colunas a serem definidas posteriormente de forna dinâmica-->
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="250" />
+                        <ColumnDefinition Width="90" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--Colunas a serem definidas posteriormente de forna dinâmica-->
+                    <Label Text="Código"  Grid.Column="0" Margin="5,0,5,5" FontAttributes="Bold" />
+                    <Label Text="Descrição"    Grid.Column="1" Margin="0,0,5,5" FontAttributes="Bold" />
+                    <Label Text="Valor Unitário"   Grid.Column="2" Margin="0,0,5,5" FontAttributes="Bold" />
+                </Grid>
+            </ScrollView>
+        </Border>
+
+        <!--//Conteúdo Principal - Dados do Grid-->
+        <Border Grid.Row="1" Stroke="Black" Padding="5" Margin="1,1,1,1" >
+            <ScrollView x:Name="DadosScrollView" Orientation="Horizontal" Grid.Row="1" Scrolled="DadosScrollView_Scrolled">
+                <CollectionView x:Name="RegistrosListView" ItemsLayout="VerticalList" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <!--Colunas dos dados, a serem definidas posteriormente de forna dinâmica-->
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="250" />
+                                    <ColumnDefinition Width="90" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--Dados a serem definidas posteriormente de forna dinâmica-->
+                                <Label Text="{Binding Id}" Grid.Column="0" Margin="5,0,5,5">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Text="{Binding Descricao}"  Grid.Column="1" Margin="0,0,5,0" />
+                                <Label Text="{Binding ValorUnitario}"  Grid.Column="2" Margin="0,0,5,0" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+        </Border>
+
+        <!--//Conteúdo do Rodapé-->
+        <Border Grid.Row="2" Stroke="Black" Margin="1,1,1,1">
+            <HorizontalStackLayout Padding="5"  Margin="1,1,1,1" Spacing="20">
+                <ImageButton x:Name="BtnNovo"     Padding="1" WidthRequest="5" HeightRequest="5" Source="Adicionar.png" Clicked="BtnNovo_Clicked" />
+                <ImageButton x:Name="BtnImprimir" Padding="1" WidthRequest="5" HeightRequest="5" Source="imprimir.png" Clicked="BtnImprimir_Clicked" />
+                <ImageButton x:Name="BtnVoltar"   Padding="1" WidthRequest="5" HeightRequest="5" Source="voltar.png" Clicked="BtnVoltar_Clicked" />
+            </HorizontalStackLayout>
+        </Border>
+    </Grid>
+
+
+    <!--<ScrollView>
         <VerticalStackLayout>
             <Border Stroke="Black" Padding="5" Margin="10,0,10,0">
                 <Grid Padding="5" ColumnSpacing="10">
@@ -54,5 +123,5 @@
             </Border>
 
         </VerticalStackLayout>
-    </ScrollView>
+    </ScrollView>-->
 </ContentPage>
