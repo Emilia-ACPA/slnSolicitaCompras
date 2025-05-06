@@ -10,7 +10,13 @@ namespace prjSolicitaCompras
         public string Descricao { get; set; } = string.Empty;
         public decimal ValorUnitario { get; set; } = decimal.Zero;
         public byte[] Imagem { get; set; } = Array.Empty<byte>();
+
+        public Item()
+        {
+            ValorUnitario = 0;
+        }
     }
+
 
 
     //A ser usado para carregar a imagem. Armazenando imagem inicialmente no banco. Posteriormente, armazenagem na nuvem.

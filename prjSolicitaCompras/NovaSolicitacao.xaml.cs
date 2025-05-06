@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Reflection.Metadata;
 using SQLite;
 
 namespace prjSolicitaCompras;
@@ -21,7 +22,7 @@ public partial class NovaSolicitacao : ContentPage
             {
                 AddNovaSolicitacao(solicitacao);
                 CarregarCabecalhoItens();
-                //                NovoItemSolicitacao(solicitacao.Id); Novo item não é liberado neste momento. Não faz sentido porque a Solicitação não existe ainda.
+                // NovoItemSolicitacao(solicitacao.Id); Novo item não é liberado neste momento. Não faz sentido porque a Solicitação não existe ainda.
             }
             else
             {
@@ -148,25 +149,35 @@ public partial class NovaSolicitacao : ContentPage
         Grid.SetColumn(lbCalcValorTotal, 5);
         this.gridItensSolicitacao.Children.Add(lbCalcValorTotal);
 
-        // Botão AddItem
+        // Botão AddItem ItemSolicitação
         var btAddItem = new Button
         {
+            ImageSource = "adicionaritem.png",
             HorizontalOptions = LayoutOptions.Center,
-            MaximumWidthRequest = 50
+            HeightRequest = 10,
+            WidthRequest = 10
         };
         Grid.SetRow(btAddItem, linhaAtualGrid);
         Grid.SetColumn(btAddItem, 6);
-        btAddItem.HeightRequest = 50;
-        btAddItem.WidthRequest = 50;
-        btAddItem.ImageSource = "adicionaritem.png";
+        btAddItem.Focus();
         btAddItem.GestureRecognizers.Add(new TapGestureRecognizer
         {
             Command = new Command(() =>
             {
                 AdicionarItemSolicitacao(_solicitacao.Id, linhaAtualGrid);
+
+                // Define o foco no próximo edDescricao, para resolver o problema de ativação do picker do usuário. A corrigir. Todo
+                var proximoEdDescricao = gridItensSolicitacao.Children
+                    .OfType<Picker>()
+                    .FirstOrDefault(c => Grid.GetRow(c) == linhaAtualGrid + 1 && Grid.GetColumn(c) == 1);
+
+                if (proximoEdDescricao != null)
+                {
+                    proximoEdDescricao.Focus();
+                }
             })
         });
-        this.gridItensSolicitacao.Children.Add(btAddItem);
+        gridItensSolicitacao.Children.Add(btAddItem);
     }
 
     private void CarregarCabecalhoItens()
@@ -369,6 +380,18 @@ public partial class NovaSolicitacao : ContentPage
                     }
                 }
             };
+            edValorUnitario.Unfocused += (sender, e) =>
+            {
+                // Define o foco no próximo edDescricao, para resolver o problema de ativação do picker do usuário. A corrigir. Todo
+                var proximoEdDescricao = gridItensSolicitacao.Children
+                    .OfType<Picker>()
+                    .FirstOrDefault(c => Grid.GetRow(c) == linhaAtualGrid + 1 && Grid.GetColumn(c) == 1);
+
+                if (proximoEdDescricao != null)
+                {
+                    proximoEdDescricao.Focus();
+                }
+            };
             Grid.SetRow(edValorUnitario, linhaAtualGrid);
             Grid.SetColumn(edValorUnitario, 4);
             gridItensSolicitacao.Children.Add(edValorUnitario);
@@ -466,7 +489,7 @@ public partial class NovaSolicitacao : ContentPage
     {
         if (solicitacaoId == 0)
         {
-            DisplayAlert("Alerta", "Favor salvar a solicitação primeiro, para depois adicionar itens a ela.", "Ok");
+            DisplayAlert("Alerta", "Favor salvar a solicitação primeiro, para depois adicionar itens.", "Ok");
             return;
         }
 

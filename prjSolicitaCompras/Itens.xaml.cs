@@ -37,7 +37,7 @@ public partial class Itens : ContentPage
     private async void BtnSalvar_Clicked(object sender, EventArgs e)
     {
         //Verifica se todos os campos estão preenchidos.
-        if (edDescricao.Text == "" || edValorUnitario.Text == "")
+        if (edDescricao.Text == "" || decimal.Parse(edValorUnitario.Text) == 0)
         {
             await DisplayAlert("Erro", "Favor preencher todos os campos e tente novamente.", "OK");
             return;
