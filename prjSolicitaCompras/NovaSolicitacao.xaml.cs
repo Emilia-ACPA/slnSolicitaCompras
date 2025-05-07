@@ -84,7 +84,7 @@ public partial class NovaSolicitacao : ContentPage
         };
         int maxTotalLength = 10;
         edQuantidade.TextChanged += (sender, e) =>
-        {
+            {
             string novoTexto = e.NewTextValue;
             if (novoTexto.Length > maxTotalLength)
             {
@@ -143,11 +143,49 @@ public partial class NovaSolicitacao : ContentPage
         var lbCalcValorTotal = new Label
         {
             MaximumWidthRequest = 100
-
         };
         Grid.SetRow(lbCalcValorTotal, linhaAtualGrid);
         Grid.SetColumn(lbCalcValorTotal, 5);
         this.gridItensSolicitacao.Children.Add(lbCalcValorTotal);
+
+        // Botão Salvar ItemSolicitação
+        var btSalvarItemSolicitacao = new Button
+        {
+            ImageSource = "salvar.png",
+            HorizontalOptions = LayoutOptions.Center,
+            HeightRequest = 10,
+            WidthRequest = 10,
+            IsVisible = false
+        };
+        Grid.SetRow(btSalvarItemSolicitacao, linhaAtualGrid);
+        Grid.SetColumn(btSalvarItemSolicitacao, 6);
+        btSalvarItemSolicitacao.GestureRecognizers.Add(new TapGestureRecognizer
+        {
+            Command = new Command(() =>
+            {
+                SalvarItemSolicitacao(itens[linhaAtualGrid], linhaAtualGrid);
+            })
+        });
+        gridItensSolicitacao.Children.Add(btSalvarItemSolicitacao);
+
+        // Botão Excluir ItemSolicitação
+        var btExcluirItemSolicitacao = new Button
+        {
+            ImageSource = "excluir.png",
+            HorizontalOptions = LayoutOptions.Center,
+            HeightRequest = 10,
+            WidthRequest = 10
+        };
+        Grid.SetRow(btExcluirItemSolicitacao, linhaAtualGrid);
+        Grid.SetColumn(btExcluirItemSolicitacao, 7);
+        btExcluirItemSolicitacao.GestureRecognizers.Add(new TapGestureRecognizer
+        {
+            Command = new Command(() =>
+            {
+                ExcluirItemSolicitacao(itens[linhaAtualGrid], linhaAtualGrid);
+            })
+        });
+        gridItensSolicitacao.Children.Add(btExcluirItemSolicitacao);
 
         // Botão AddItem ItemSolicitação
         var btAddItem = new Button
@@ -155,28 +193,14 @@ public partial class NovaSolicitacao : ContentPage
             ImageSource = "adicionaritem.png",
             HorizontalOptions = LayoutOptions.Center,
             HeightRequest = 10,
-            WidthRequest = 10
+            WidthRequest = 10,
+            IsVisible = true
         };
         Grid.SetRow(btAddItem, linhaAtualGrid);
-        Grid.SetColumn(btAddItem, 6);
-        btAddItem.Focus();
-        btAddItem.GestureRecognizers.Add(new TapGestureRecognizer
-        {
-            Command = new Command(() =>
-            {
-                AdicionarItemSolicitacao(_solicitacao.Id, linhaAtualGrid);
-
-                // Define o foco no próximo edDescricao, para resolver o problema de ativação do picker do usuário. A corrigir. Todo
-                var proximoEdDescricao = gridItensSolicitacao.Children
-                    .OfType<Picker>()
-                    .FirstOrDefault(c => Grid.GetRow(c) == linhaAtualGrid + 1 && Grid.GetColumn(c) == 1);
-
-                if (proximoEdDescricao != null)
-                {
-                    proximoEdDescricao.Focus();
-                }
-            })
-        });
+        Grid.SetColumn(btAddItem, 8);
+        btAddItem.Clicked += (sender, e) => {
+            AdicionarItemSolicitacao(_solicitacao.Id, linhaAtualGrid);
+        };
         gridItensSolicitacao.Children.Add(btAddItem);
     }
 
@@ -380,18 +404,6 @@ public partial class NovaSolicitacao : ContentPage
                     }
                 }
             };
-            edValorUnitario.Unfocused += (sender, e) =>
-            {
-                // Define o foco no próximo edDescricao, para resolver o problema de ativação do picker do usuário. A corrigir. Todo
-                var proximoEdDescricao = gridItensSolicitacao.Children
-                    .OfType<Picker>()
-                    .FirstOrDefault(c => Grid.GetRow(c) == linhaAtualGrid + 1 && Grid.GetColumn(c) == 1);
-
-                if (proximoEdDescricao != null)
-                {
-                    proximoEdDescricao.Focus();
-                }
-            };
             Grid.SetRow(edValorUnitario, linhaAtualGrid);
             Grid.SetColumn(edValorUnitario, 4);
             gridItensSolicitacao.Children.Add(edValorUnitario);
@@ -413,7 +425,8 @@ public partial class NovaSolicitacao : ContentPage
                 ImageSource = "salvar.png",
                 HorizontalOptions = LayoutOptions.Center,
                 HeightRequest = 10,
-                WidthRequest = 10
+                WidthRequest = 10,
+                IsVisible = true
             };
             Grid.SetRow(btSalvarItemSolicitacao, linhaAtualGrid);
             Grid.SetColumn(btSalvarItemSolicitacao, 6);
@@ -444,6 +457,22 @@ public partial class NovaSolicitacao : ContentPage
                 })
             });
             gridItensSolicitacao.Children.Add(btExcluirItemSolicitacao);
+
+            // Botão Adicionar ItemSolicitação
+            var btAddItem = new Button
+            {
+                ImageSource = "adicionaritem.png",
+                HorizontalOptions = LayoutOptions.Center,
+                HeightRequest = 10,
+                WidthRequest = 10,
+                IsVisible = false
+            };
+            Grid.SetRow(btAddItem, linhaAtualGrid);
+            Grid.SetColumn(btAddItem, 8);
+            btAddItem.Clicked += (sender, e) => {
+                AdicionarItemSolicitacao(_solicitacao.Id, linhaAtualGrid);
+            };
+            gridItensSolicitacao.Children.Add(btAddItem);
         }
     }
 
@@ -547,16 +576,31 @@ public partial class NovaSolicitacao : ContentPage
         {
             // Adiciona o item de solicitação no banco de dados
             _con.Insert(_itemSolicitacao);
-            DisplayAlert("Sucesso", "Item atualizado com sucesso.", "OK");
 
-            // Posteriormente atualizar apenas o botão que não será mais de inserção, mas de salvar. To do.
-            CarregarItensSolicitacao(_solicitacao.Id);
+            AtualizarStatusBotoes(true, false, indexLinha);
+
+            DisplayAlert("Sucesso", "Item adicionado com sucesso.", "OK");
+
             NovoItemSolicitacao(_solicitacao.Id);
         }
         else
         {
             DisplayAlert("Alerta", "Campos obrigatórios: 'Item', 'Quantidade' e 'Valor Unitário'", "OK");
         }
+    }
+
+    private void AtualizarStatusBotoes(bool boolSalvarItem, bool boolAddItem, int indexLinha)
+    {
+        // Atualiza visibilidade dos botões. boolSalvarItem:Visible, boolAddItem:Invisible
+        var btSalvarItemSolicitacao = gridItensSolicitacao.Children
+            .OfType<Button>()
+            .FirstOrDefault(c => Grid.GetRow(c) == indexLinha && Grid.GetColumn(c) == 6);
+        var btAddItemSolicitacao = gridItensSolicitacao.Children
+            .OfType<Button>()
+            .FirstOrDefault(c => Grid.GetRow(c) == indexLinha && Grid.GetColumn(c) == 8);
+
+        btSalvarItemSolicitacao.IsVisible = boolSalvarItem;
+        btAddItemSolicitacao.IsVisible = boolAddItem;
     }
 
     public void SalvarItemSolicitacao(ItemSolicitacao itemSolicitacao, int indexLinha)
